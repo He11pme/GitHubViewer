@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">GitHubViewer</string>
+    <string name="personal_access_token">Личный токен доступа</string>
+    <string name="sign_in">ВОЙТИ</string>
+</resources>
