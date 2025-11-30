@@ -1,0 +1,39 @@
+package ivan.mineev.githubviewer
+
+import dagger.hilt.android.scopes.ActivityRetainedScoped
+import ivan.mineev.githubviewer.network.GitHubApi
+import javax.inject.Inject
+
+@ActivityRetainedScoped
+class AppRepository @Inject constructor(val keyValueStorage: KeyValueStorage) {
+
+    private var _user: UserInfo? = null
+    val user: UserInfo get() = _user ?: throw Exception("User unauthorized")
+
+    suspend fun signIn(token: String): Result<Unit> {
+        try {
+            val userInfo = getUser(token)
+            saveUser(userInfo)
+            saveToken(token)
+            return Result.success(Unit)
+        } catch (e: Exception) {
+            return Result.failure(e)
+        }
+    }
+
+    private suspend fun getUser(token: String): UserInfo {
+        // new format token: Bearer $token
+        // old format token: token $token
+        val prefix = if (token.contains("github_pat")) "Bearer" else "token"
+        return GitHubApi.retrofitService.getUser("$prefix $token")
+    }
+
+    private fun saveUser(userInfo: UserInfo) {
+        _user = userInfo
+    }
+
+    private fun saveToken(token: String) {
+        keyValueStorage.saveToken(token)
+    }
+
+}

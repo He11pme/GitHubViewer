@@ -2,5 +2,13 @@
     <string name="app_name">GitHubViewer</string>
     <string name="personal_access_token">Personal access token</string>
     <string name="sign_in">SIGN IN</string>
+    <string name="forbidden_error">Forbidden: rate limit or insufficient permission</string>
+    <string name="unauthorized_error">Unauthorized: invalid token</string>
+    <string name="network_error">Network error</string>
+    <string name="server_error">Server error</string>
+    <string name="unexpected_error">Unexpected error</string>
+    <string name="empty_token">Token cannot be empty</string>
+    <string name="loading">LOADING</string>
+    <string name="saved_token">TOKEN</string>
 
 </resources>

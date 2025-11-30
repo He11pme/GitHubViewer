@@ -1,10 +1,10 @@
 package ivan.mineev.githubviewer
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import ivan.mineev.githubviewer.databinding.FragmentDetailInfoBinding
 
 class DetailInfoFragment : Fragment() {
@@ -14,7 +14,7 @@ class DetailInfoFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         binding = FragmentDetailInfoBinding.inflate(layoutInflater, container, false)
         return binding.root

@@ -1,15 +1,20 @@
 package ivan.mineev.githubviewer
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
-import java.lang.Exception
+import okio.IOException
+import retrofit2.HttpException
+import javax.inject.Inject
 
-class AuthViewModel : ViewModel() {
+@HiltViewModel
+class AuthViewModel @Inject constructor(val keyValueStorage: KeyValueStorage, val appRepository: AppRepository) : ViewModel() {
 
     val token = MutableLiveData<String>()
     private val _state = MutableLiveData<State>()
@@ -17,47 +22,86 @@ class AuthViewModel : ViewModel() {
     private val _actions = MutableSharedFlow<Action>()
     val actions: Flow<Action> get() = _actions
 
-    fun onSignButtonPressed() {
+    init {
+        keyValueStorage.authToken.value?.let {
+            token.value = it
+            signIn()
+        }
+    }
+
+    fun onSignButtonPressed() = signIn()
+    private fun signIn() {
         token.value.let { currentToken ->
 
             if (currentToken.isNullOrBlank()) {
-                _state.value = State.InvalidInput("Token cannot be empty")
+                _state.value = State.InvalidInput(R.string.empty_token)
                 return
             }
 
             _state.value = State.Loading
 
             viewModelScope.launch {
-                try {
-                    if (checkToken(currentToken)) {
-                        _actions.emit(Action.RouteToMain)
-                    } else {
-                        _actions.emit(Action.ShowError("Invalid Token"))
-                        _state.value = State.Idle
+
+                appRepository.signIn(currentToken).apply {
+                    onSuccess {
+                        handleSuccess()
+                    }.onFailure { e ->
+                        handleError(e)
                     }
-                } catch (e: Exception) {
-                    _actions.emit(Action.ShowError("Network error: ${e.message}"))
-                    _state.value = State.Idle
                 }
+
             }
         }
-
     }
 
-    fun checkToken(token: String): Boolean {
-        return if (token == "1234") true
-        else false
+    private suspend fun handleSuccess() {
+        _state.value = State.Idle
+        _actions.emit(Action.RouteToMain)
+    }
+
+    private suspend fun handleError(e: Throwable) {
+        when (e) {
+            is IOException -> handleIOException()
+            is HttpException -> handleHttpException(e)
+            else -> handleUnexpectedError()
+        }
+        Log.e(TAG, e.message.toString())
+    }
+
+    private suspend fun handleUnexpectedError() {
+        _state.value = State.Idle
+        _actions.emit(Action.ShowError(R.string.unexpected_error))
+    }
+
+    private suspend fun handleHttpException(e: HttpException) {
+        val typeError = when (e.code()) {
+            401 -> R.string.unauthorized_error.also { _state.value = State.InvalidInput(it) }
+            403 -> R.string.forbidden_error.also { _state.value = State.Idle }
+            else -> R.string.server_error.also { _state.value = State.Idle }
+        }
+        _actions.emit(Action.ShowError(typeError))
+    }
+
+    private suspend fun handleIOException() {
+        _state.value = State.Idle
+        _actions.emit(Action.ShowError(R.string.network_error))
     }
 
     sealed interface State {
         object Idle : State
         object Loading : State
-        data class InvalidInput(val reason: String) : State
+        // reason is id for string resources
+        data class InvalidInput(val reason: Int) : State
     }
 
     sealed interface Action {
-        data class ShowError(val message: String) : Action
+        // message is id fro string resources
+        data class ShowError(val message: Int) : Action
         object RouteToMain : Action
+    }
+
+    companion object{
+        private const val TAG = "AUTH"
     }
 
 }
