@@ -24,7 +24,7 @@ class AppRepository @Inject constructor(val keyValueStorage: KeyValueStorage) {
     private suspend fun getUser(token: String): UserInfo {
         // new format token: Bearer $token
         // old format token: token $token
-        val prefix = if (token.contains("github_pat")) "Bearer" else "token"
+        val prefix = if (token.contains(NEW_TOKEN_INCLUDE)) NEW_TOKEN_PREFIX else OLD_TOKEN_PREFIX
         return GitHubApi.retrofitService.getUser("$prefix $token")
     }
 
@@ -34,6 +34,13 @@ class AppRepository @Inject constructor(val keyValueStorage: KeyValueStorage) {
 
     private fun saveToken(token: String) {
         keyValueStorage.saveToken(token)
+    }
+
+    companion object {
+        private const val NEW_TOKEN_PREFIX = "Bearer"
+        private const val OLD_TOKEN_PREFIX = "token"
+
+        private const val NEW_TOKEN_INCLUDE = "github_pat"
     }
 
 }

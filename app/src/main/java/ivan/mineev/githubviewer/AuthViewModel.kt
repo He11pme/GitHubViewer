@@ -14,21 +14,13 @@ import retrofit2.HttpException
 import javax.inject.Inject
 
 @HiltViewModel
-class AuthViewModel @Inject constructor(val keyValueStorage: KeyValueStorage, val appRepository: AppRepository) : ViewModel() {
+class AuthViewModel @Inject constructor(val appRepository: AppRepository) : ViewModel() {
 
     val token = MutableLiveData<String>()
     private val _state = MutableLiveData<State>()
     val state: LiveData<State> get() = _state
     private val _actions = MutableSharedFlow<Action>()
     val actions: Flow<Action> get() = _actions
-
-    init {
-        keyValueStorage.authToken.value?.let {
-            token.value = it
-            signIn()
-        }
-    }
-
     fun onSignButtonPressed() = signIn()
     private fun signIn() {
         token.value.let { currentToken ->

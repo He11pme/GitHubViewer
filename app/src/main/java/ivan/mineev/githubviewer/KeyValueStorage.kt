@@ -1,18 +1,24 @@
 package ivan.mineev.githubviewer
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import android.content.SharedPreferences
+import androidx.core.content.edit
 import dagger.hilt.android.scopes.ActivityRetainedScoped
 import javax.inject.Inject
 
 @ActivityRetainedScoped
-class KeyValueStorage @Inject constructor() {
+class KeyValueStorage @Inject constructor(private val sharedPreferences: SharedPreferences) {
 
-    private val _authToken = MutableLiveData<String?>(null)
-    val authToken: LiveData<String?> get() = _authToken
+    var authToken = sharedPreferences.getString(KEY_TOKEN, null)
+        private set
 
     fun saveToken(token: String?) {
-        _authToken.value = token
+        authToken = token
+        sharedPreferences.edit { putString(KEY_TOKEN, token) }
+    }
+
+    companion object {
+        private const val KEY_TOKEN = "saved_token"
+
     }
 
 }
