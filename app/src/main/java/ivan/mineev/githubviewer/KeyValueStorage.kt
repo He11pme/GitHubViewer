@@ -9,11 +9,15 @@ import javax.inject.Inject
 class KeyValueStorage @Inject constructor(private val sharedPreferences: SharedPreferences) {
 
     var authToken = sharedPreferences.getString(KEY_TOKEN, null)
-        private set
+        private set(value) {
+            if (field != value) {
+                sharedPreferences.edit { putString(KEY_TOKEN, value) }
+                field = value
+            }
+        }
 
     fun saveToken(token: String?) {
         authToken = token
-        sharedPreferences.edit { putString(KEY_TOKEN, token) }
     }
 
     companion object {

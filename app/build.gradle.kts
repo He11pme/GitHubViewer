@@ -62,6 +62,7 @@ dependencies {
     implementation(libs.lottie)
     implementation(libs.retrofit2.kotlinx.serialization.converter)
     implementation(libs.hilt.android)
+    implementation(libs.androidx.core.splashscreen)
     kapt(libs.hilt.compiler)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

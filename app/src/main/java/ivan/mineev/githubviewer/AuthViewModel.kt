@@ -17,11 +17,15 @@ import javax.inject.Inject
 class AuthViewModel @Inject constructor(val appRepository: AppRepository) : ViewModel() {
 
     val token = MutableLiveData<String>()
+
     private val _state = MutableLiveData<State>()
     val state: LiveData<State> get() = _state
+
     private val _actions = MutableSharedFlow<Action>()
     val actions: Flow<Action> get() = _actions
+
     fun onSignButtonPressed() = signIn()
+
     private fun signIn() {
         token.value.let { currentToken ->
 
@@ -32,16 +36,15 @@ class AuthViewModel @Inject constructor(val appRepository: AppRepository) : View
 
             _state.value = State.Loading
 
-            viewModelScope.launch {
+            trySignIn(currentToken)
+        }
+    }
 
-                appRepository.signIn(currentToken).apply {
-                    onSuccess {
-                        handleSuccess()
-                    }.onFailure { e ->
-                        handleError(e)
-                    }
-                }
-
+    private fun trySignIn(currentToken: String) {
+        viewModelScope.launch {
+            appRepository.signIn(currentToken).apply {
+                onSuccess { handleSuccess() }
+                onFailure { e -> handleError(e) }
             }
         }
     }
@@ -82,6 +85,7 @@ class AuthViewModel @Inject constructor(val appRepository: AppRepository) : View
     sealed interface State {
         object Idle : State
         object Loading : State
+
         // reason is id for string resources
         data class InvalidInput(val reason: Int) : State
     }
@@ -92,7 +96,7 @@ class AuthViewModel @Inject constructor(val appRepository: AppRepository) : View
         object RouteToMain : Action
     }
 
-    companion object{
+    companion object {
         private const val TAG = "AUTH"
     }
 
