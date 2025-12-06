@@ -1,4 +1,4 @@
-package ivan.mineev.githubviewer
+package ivan.mineev.githubviewer.utils
 
 import android.animation.Animator
 

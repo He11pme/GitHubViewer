@@ -1,7 +1,7 @@
 package ivan.mineev.githubviewer.network
 
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
-import ivan.mineev.githubviewer.UserInfo
+import ivan.mineev.githubviewer.model.UserInfo
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 import retrofit2.Retrofit

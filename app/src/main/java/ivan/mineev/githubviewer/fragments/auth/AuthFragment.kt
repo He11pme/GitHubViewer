@@ -1,4 +1,4 @@
-package ivan.mineev.githubviewer
+package ivan.mineev.githubviewer.fragments.auth
 
 import android.animation.Animator
 import android.os.Bundle
@@ -12,7 +12,9 @@ import androidx.navigation.findNavController
 import com.airbnb.lottie.LottieDrawable
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import ivan.mineev.githubviewer.R
 import ivan.mineev.githubviewer.databinding.FragmentAuthBinding
+import ivan.mineev.githubviewer.utils.AnimatorListenerAdapter
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint

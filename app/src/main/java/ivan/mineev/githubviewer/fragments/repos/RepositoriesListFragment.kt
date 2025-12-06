@@ -1,4 +1,4 @@
-package ivan.mineev.githubviewer
+package ivan.mineev.githubviewer.fragments.repos
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -14,7 +14,7 @@ class RepositoriesListFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         binding = FragmentRepositoriesListBinding.inflate(layoutInflater, container, false)
 

@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/authFragment"
-        android:name="ivan.mineev.githubviewer.AuthFragment"
+        android:name="ivan.mineev.githubviewer.fragments.auth.AuthFragment"
         android:label="fragment_auth"
         tools:layout="@layout/fragment_auth" >
         <action
@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/repositoriesListFragment"
-        android:name="ivan.mineev.githubviewer.RepositoriesListFragment"
+        android:name="ivan.mineev.githubviewer.fragments.repos.RepositoriesListFragment"
         android:label="fragment_repositories_list"
         tools:layout="@layout/fragment_repositories_list" >
         <action
@@ -25,7 +25,7 @@
     </fragment>
     <fragment
         android:id="@+id/detailInfoFragment"
-        android:name="ivan.mineev.githubviewer.DetailInfoFragment"
+        android:name="ivan.mineev.githubviewer.fragments.info.DetailInfoFragment"
         android:label="fragment_detail_info"
         tools:layout="@layout/fragment_detail_info" >
         <action

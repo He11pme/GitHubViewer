@@ -2,13 +2,13 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".AuthFragment">
+    tools:context=".fragments.auth.AuthFragment">
 
     <data>
 
         <variable
             name="viewModel"
-            type="ivan.mineev.githubviewer.AuthViewModel" />
+            type="ivan.mineev.githubviewer.fragments.auth.AuthViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -20,6 +20,7 @@
             android:id="@+id/logoGitHub"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/github_logo"
             android:src="@drawable/github_mark"
             app:layout_constraintBottom_toTopOf="@+id/tokenInputLayout"
             app:layout_constraintEnd_toEndOf="parent"

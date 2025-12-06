@@ -1,4 +1,4 @@
-package ivan.mineev.githubviewer
+package ivan.mineev.githubviewer.activities
 
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
@@ -11,6 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import dagger.hilt.android.AndroidEntryPoint
+import ivan.mineev.githubviewer.R
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint

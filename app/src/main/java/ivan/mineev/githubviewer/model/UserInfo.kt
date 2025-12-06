@@ -1,4 +1,4 @@
-package ivan.mineev.githubviewer
+package ivan.mineev.githubviewer.model
 
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.SerialName

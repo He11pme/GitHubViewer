@@ -1,6 +1,8 @@
-package ivan.mineev.githubviewer
+package ivan.mineev.githubviewer.repository
 
 import dagger.hilt.android.scopes.ActivityRetainedScoped
+import ivan.mineev.githubviewer.storage.KeyValueStorage
+import ivan.mineev.githubviewer.model.UserInfo
 import ivan.mineev.githubviewer.network.GitHubApi
 import javax.inject.Inject
 

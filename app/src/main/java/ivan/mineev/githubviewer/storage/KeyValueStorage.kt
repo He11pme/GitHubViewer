@@ -1,4 +1,4 @@
-package ivan.mineev.githubviewer
+package ivan.mineev.githubviewer.storage
 
 import android.content.SharedPreferences
 import androidx.core.content.edit
