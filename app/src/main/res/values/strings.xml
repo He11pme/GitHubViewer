@@ -9,5 +9,6 @@
     <string name="unexpected_error">Unexpected error</string>
     <string name="empty_token">Token cannot be empty</string>
     <string name="loading">LOADING</string>
+    <string name="github_logo">GitHub logo</string>
 
 </resources>
