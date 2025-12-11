@@ -6,7 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.airbnb.lottie.LottieDrawable
 import dagger.hilt.android.AndroidEntryPoint
+import ivan.mineev.githubviewer.R
 import ivan.mineev.githubviewer.databinding.FragmentRepositoriesListBinding
 
 @AndroidEntryPoint
@@ -16,6 +18,8 @@ class RepositoriesListFragment : Fragment() {
 
     private val viewModel: RepositoriesViewModel by viewModels()
 
+    private val adapter = AdapterRepositories()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -23,9 +27,58 @@ class RepositoriesListFragment : Fragment() {
 
         binding = FragmentRepositoriesListBinding.inflate(layoutInflater, container, false)
 
+        binding.recyclerRepositories.adapter = adapter
+
+        setupAnimationView()
+        bindToViewModel()
         viewModel.loadRepositories()
 
         return binding.root
+    }
+
+    private fun bindToViewModel() {
+        bindState()
+    }
+
+    private fun bindState() {
+        viewModel.state.observe(viewLifecycleOwner, ::handleState)
+    }
+
+    private fun handleState(state: RepositoriesViewModel.State) {
+        renderRepositories(state)
+        renderAnimation(state)
+    }
+
+    private fun renderRepositories(state: RepositoriesViewModel.State) {
+        if (state is RepositoriesViewModel.State.Loaded) {
+            adapter.data = state.repos
+        }
+    }
+
+    private fun renderAnimation(state: RepositoriesViewModel.State) {
+        if (state is RepositoriesViewModel.State.Loading) {
+            setupAnimation(R.raw.loading_list_animation)
+            binding.animationViewRepos.playAnimation()
+        }
+        if (state is RepositoriesViewModel.State.Empty) {
+            setupAnimation(R.raw.empty_list_animation)
+            binding.animationViewRepos.playAnimation()
+        }
+        if (state is RepositoriesViewModel.State.Loaded) {
+            binding.animationViewRepos.cancelAnimation()
+            binding.animationViewRepos.visibility = View.GONE
+        }
+    }
+
+    private fun setupAnimationView() {
+        binding.animationViewRepos.apply {
+            visibility = View.VISIBLE
+            repeatCount = LottieDrawable.INFINITE
+        }
+    }
+
+    private fun setupAnimation(animationId: Int) {
+        binding.animationViewRepos.setAnimation(animationId)
     }
 
 }

@@ -10,5 +10,6 @@
     <string name="empty_token">Token cannot be empty</string>
     <string name="loading">LOADING</string>
     <string name="github_logo">GitHub logo</string>
+    <string name="private_repository">private</string>
 
 </resources>

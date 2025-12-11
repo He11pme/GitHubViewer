@@ -8,7 +8,10 @@ import ivan.mineev.githubviewer.storage.KeyValueStorage
 import javax.inject.Inject
 
 @ActivityRetainedScoped
-class AppRepository @Inject constructor(val keyValueStorage: KeyValueStorage) {
+class AppRepository @Inject constructor(
+    val keyValueStorage: KeyValueStorage,
+    private val colorRepository: LanguageColorRepository
+) {
     private var _user: UserInfo? = null
     val user: UserInfo get() = _user ?: throw Exception("User unauthorized")
 
@@ -28,6 +31,7 @@ class AppRepository @Inject constructor(val keyValueStorage: KeyValueStorage) {
             }
         } ?: Result.failure(Exception("token unsaved"))
     }
+
     private suspend fun getUser(token: String): UserInfo {
         return GitHubApi.unauthorized.getUser(fullToken(token))
     }
@@ -45,8 +49,8 @@ class AppRepository @Inject constructor(val keyValueStorage: KeyValueStorage) {
     }
 
     suspend fun loadRepositories(): Result<Unit> {
-       return try {
-            _repositories = getRepositories()
+        return try {
+            _repositories = getRepositories().setColor(colorRepository)
             Result.success(Unit)
         } catch (e: Exception) {
             Result.failure(e)
@@ -65,10 +69,17 @@ class AppRepository @Inject constructor(val keyValueStorage: KeyValueStorage) {
         private val fullToken: (String) -> String = { token ->
             // new format token: Bearer $token
             // old format token: token $token
-            val prefix = if (token.contains(NEW_TOKEN_INCLUDE)) NEW_TOKEN_PREFIX else OLD_TOKEN_PREFIX
+            val prefix =
+                if (token.contains(NEW_TOKEN_INCLUDE)) NEW_TOKEN_PREFIX else OLD_TOKEN_PREFIX
 
             "$prefix $token"
         }
     }
 
+
+}
+
+private fun List<Repo>.setColor(colorRepository: LanguageColorRepository): List<Repo> {
+    forEach { it.color = colorRepository.getColorFor(it.language) }
+    return this
 }
