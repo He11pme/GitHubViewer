@@ -10,6 +10,7 @@ import com.airbnb.lottie.LottieDrawable
 import dagger.hilt.android.AndroidEntryPoint
 import ivan.mineev.githubviewer.R
 import ivan.mineev.githubviewer.databinding.FragmentRepositoriesListBinding
+import jp.wasabeef.recyclerview.animators.SlideInDownAnimator
 
 @AndroidEntryPoint
 class RepositoriesListFragment : Fragment() {
@@ -27,13 +28,24 @@ class RepositoriesListFragment : Fragment() {
 
         binding = FragmentRepositoriesListBinding.inflate(layoutInflater, container, false)
 
-        binding.recyclerRepositories.adapter = adapter
-
-        setupAnimationView()
+        setupViews()
         bindToViewModel()
+
         viewModel.loadRepositories()
 
         return binding.root
+    }
+
+    private fun setupViews() {
+        setupRecyclerRepos()
+        setupAnimationView()
+    }
+
+    private fun setupRecyclerRepos() {
+        binding.apply {
+            recyclerRepositories.adapter = adapter
+            recyclerRepositories.itemAnimator = SlideInDownAnimator()
+        }
     }
 
     private fun bindToViewModel() {
@@ -50,9 +62,11 @@ class RepositoriesListFragment : Fragment() {
     }
 
     private fun renderRepositories(state: RepositoriesViewModel.State) {
-        if (state is RepositoriesViewModel.State.Loaded) {
-            adapter.submitList(state.repos)
-        }
+        if (state is RepositoriesViewModel.State.Loaded) submitList(state)
+    }
+
+    private fun submitList(state: RepositoriesViewModel.State.Loaded) {
+        adapter.submitList(state.repos)
     }
 
     private fun renderAnimation(state: RepositoriesViewModel.State) {
