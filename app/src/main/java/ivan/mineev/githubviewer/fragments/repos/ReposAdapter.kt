@@ -3,17 +3,12 @@ package ivan.mineev.githubviewer.fragments.repos
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import ivan.mineev.githubviewer.databinding.ItemRepoBinding
 import ivan.mineev.githubviewer.model.Repo
 
-class AdapterRepositories : RecyclerView.Adapter<AdapterRepositories.ViewHolder>() {
-
-    var data: List<Repo> = emptyList()
-        set(value) {
-            field = value
-            notifyDataSetChanged()
-        }
+class ReposAdapter : ListAdapter<Repo, ReposAdapter.ViewHolder>(ReposDiffCallback()) {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -29,10 +24,8 @@ class AdapterRepositories : RecyclerView.Adapter<AdapterRepositories.ViewHolder>
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(data[position])
+        holder.bind(getItem(position))
     }
-
-    override fun getItemCount(): Int = data.size
 
     class ViewHolder(private val binding: ItemRepoBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -40,8 +33,6 @@ class AdapterRepositories : RecyclerView.Adapter<AdapterRepositories.ViewHolder>
             binding.apply {
 
                 privateImage.visibility = if (repo.isPrivate) View.VISIBLE else View.GONE
-//                if (repo.isPrivate) privateImage.visibility = View.VISIBLE
-//                else privateImage.visibility = View.GONE
 
                 title.text = repo.name
 

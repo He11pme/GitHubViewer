@@ -18,7 +18,7 @@ class RepositoriesListFragment : Fragment() {
 
     private val viewModel: RepositoriesViewModel by viewModels()
 
-    private val adapter = AdapterRepositories()
+    private val adapter = ReposAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -51,7 +51,7 @@ class RepositoriesListFragment : Fragment() {
 
     private fun renderRepositories(state: RepositoriesViewModel.State) {
         if (state is RepositoriesViewModel.State.Loaded) {
-            adapter.data = state.repos
+            adapter.submitList(state.repos)
         }
     }
 
