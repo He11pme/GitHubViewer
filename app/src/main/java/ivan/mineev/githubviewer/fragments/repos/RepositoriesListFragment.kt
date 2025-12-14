@@ -35,14 +35,18 @@ class RepositoriesListFragment : Fragment() {
 
         setupViews()
         bindToViewModel()
-
-        viewModel.loadRepositories()
+        initLoadRepositories()
 
         return binding.root
     }
 
+    private fun initLoadRepositories() {
+        viewModel.loadRepositories()
+    }
+
     private fun setupViews() {
         setupRecyclerRepos()
+        setupRefreshLayout()
     }
 
     private fun setupRecyclerRepos() {
@@ -55,6 +59,12 @@ class RepositoriesListFragment : Fragment() {
                     RecyclerView.VERTICAL
                 ).apply { setDrawable(resources.getDrawable(R.drawable.divider_item_repos)) }
             )
+        }
+    }
+
+    private fun setupRefreshLayout() {
+        binding.refreshLayout.setOnRefreshListener {
+            viewModel.reloadRepositories()
         }
     }
 
@@ -77,6 +87,11 @@ class RepositoriesListFragment : Fragment() {
         renderRepositories(state)
         renderAnimation(state)
         renderDescriptionAnimation(state)
+        renderRefreshLayout(state)
+    }
+
+    private fun renderRefreshLayout(state: RepositoriesViewModel.State) {
+        binding.refreshLayout.isRefreshing = state is RepositoriesViewModel.State.Reloading
     }
 
     private fun handleAction(action: RepositoriesViewModel.Action) {

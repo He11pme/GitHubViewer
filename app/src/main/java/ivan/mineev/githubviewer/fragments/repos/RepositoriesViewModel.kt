@@ -29,9 +29,13 @@ class RepositoriesViewModel @Inject constructor(
     private val _actions = MutableSharedFlow<Action>()
     val actions: Flow<Action> get() = _actions
 
+    fun reloadRepositories() {
+        _state.value = State.Reloading
+        tryLoadRepositories()
+    }
+
     fun loadRepositories() {
         _state.value = State.Loading
-
         tryLoadRepositories()
     }
 
@@ -83,6 +87,8 @@ class RepositoriesViewModel @Inject constructor(
     }
 
     sealed interface State {
+
+        object Reloading: State
         object Loading : State
         data class Loaded(val repos: List<Repo>) : State
         data class Error(val error: Int) : State
