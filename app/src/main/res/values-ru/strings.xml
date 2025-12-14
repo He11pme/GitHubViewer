@@ -3,4 +3,17 @@
     <string name="app_name">GitHubViewer</string>
     <string name="personal_access_token">Личный токен доступа</string>
     <string name="sign_in">ВОЙТИ</string>
+    <string name="loading">ЗАГРУЗКА</string>
+
+    <!--    ERROR    -->
+
+    <string name="forbidden_error">Превышен лимит запросов или недостаточно прав доступа</string>
+    <string name="unauthorized_error">Истёк срок действия токена доступа</string>
+    <string name="unauthorized_error_login">Недействительный токен доступа</string>
+    <string name="network_error">Нет подключения к интернету</string>
+    <string name="server_error">Ошибка соединения с сервером</string>
+    <string name="unexpected_error">Непредвиденная ошибка</string>
+    <string name="empty_token">Токен не может быть пустым</string>
+    <string name="empty_list">Список пуст</string>
+
 </resources>

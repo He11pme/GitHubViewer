@@ -2,14 +2,19 @@
     <string name="app_name">GitHubViewer</string>
     <string name="personal_access_token">Personal access token</string>
     <string name="sign_in">SIGN IN</string>
-    <string name="forbidden_error">Forbidden: rate limit or insufficient permission</string>
-    <string name="unauthorized_error">Unauthorized: invalid token</string>
-    <string name="network_error">Network error</string>
-    <string name="server_error">Server error</string>
+    <string name="loading">LOADING</string>
+    <string name="github_logo" translatable="false">GitHub logo</string>
+    <string name="private_repository" translatable="false">private</string>
+
+    <!--    ERROR    -->
+
+    <string name="forbidden_error">Request limit exceeded or insufficient permissions</string>
+    <string name="unauthorized_error_login">Invalid access token</string>
+    <string name="unauthorized_error">Access token expired</string>
+    <string name="network_error">No internet connection</string>
+    <string name="server_error">Server connection error</string>
     <string name="unexpected_error">Unexpected error</string>
     <string name="empty_token">Token cannot be empty</string>
-    <string name="loading">LOADING</string>
-    <string name="github_logo">GitHub logo</string>
-    <string name="private_repository">private</string>
+    <string name="empty_list">No items found</string>
 
 </resources>

@@ -6,8 +6,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import ivan.mineev.githubviewer.repository.AppRepository
 import ivan.mineev.githubviewer.R
+import ivan.mineev.githubviewer.repository.AppRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
@@ -72,7 +72,7 @@ class AuthViewModel @Inject constructor(val appRepository: AppRepository) : View
 
     private suspend fun handleHttpException(e: HttpException) {
         val typeError = when (e.code()) {
-            401 -> R.string.unauthorized_error.also { _state.value = State.InvalidInput(it) }
+            401 -> R.string.unauthorized_error_login.also { _state.value = State.InvalidInput(it) }
             403 -> R.string.forbidden_error.also { _state.value = State.Idle }
             else -> R.string.server_error.also { _state.value = State.Idle }
         }
