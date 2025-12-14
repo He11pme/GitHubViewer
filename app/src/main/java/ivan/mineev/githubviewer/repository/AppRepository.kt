@@ -50,7 +50,7 @@ class AppRepository @Inject constructor(
 
     suspend fun loadRepositories(): Result<Unit> {
         return try {
-            _repositories = getRepositories().setColor(colorRepository)
+            _repositories = getRepositories()
             Result.success(Unit)
         } catch (e: Exception) {
             Result.failure(e)
@@ -58,7 +58,7 @@ class AppRepository @Inject constructor(
     }
 
     private suspend fun getRepositories(): List<Repo> {
-        return GitHubApi.authorized.getRepositories()
+        return GitHubApi.authorized.getRepositories().setColor(colorRepository)
     }
 
     fun logout() {
@@ -85,7 +85,7 @@ class AppRepository @Inject constructor(
 
 }
 
-private fun List<Repo>.setColor(colorRepository: LanguageColorRepository): List<Repo> {
+private suspend fun List<Repo>.setColor(colorRepository: LanguageColorRepository): List<Repo> {
     forEach { it.color = colorRepository.getColorFor(it.language) }
     return this
 }

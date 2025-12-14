@@ -1,23 +1,25 @@
 package ivan.mineev.githubviewer.repository
 
-import android.content.Context
 import android.util.Log
 import androidx.core.graphics.toColorInt
-import dagger.hilt.android.qualifiers.ApplicationContext
+import ivan.mineev.githubviewer.network.LinguistApi
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.serialization.SerializationException
-import kotlinx.serialization.json.Json
-import java.io.FileNotFoundException
 import java.io.IOException
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class LanguageColorRepository @Inject constructor(@ApplicationContext context: Context) {
+class LanguageColorRepository @Inject constructor() {
 
-    private val colors: Map<String, String> = loadLanguageColors(context)
+    private val colorsDeferred = CoroutineScope(Dispatchers.IO).async {
+        loadLanguageColors()
+    }
 
-    fun getColorFor(language: String): Int {
-
+    suspend fun getColorFor(language: String): Int {
+        val colors = colorsDeferred.await()
         val hex = colors[language] ?: OTHER_LANGUAGE_COLOR
         try {
             return hex.toColorInt()
@@ -28,21 +30,30 @@ class LanguageColorRepository @Inject constructor(@ApplicationContext context: C
 
     }
 
-    private fun loadLanguageColors(context: Context): Map<String, String> {
+    private suspend fun loadLanguageColors(): Map<String, String> {
         try {
-            val input = context.assets.open(FILE_WITH_COLORS)
-            val jsonString = input.bufferedReader().use { it.readText() }
-            return Json.decodeFromString(jsonString)
+            val yamlString = LinguistApi.linguistService.getLanguagesYml()
+            return parseColorsFromYaml(yamlString)
         } catch (e: Exception) {
 
-            when(e) {
-                is FileNotFoundException -> logError("Не удалось найти файл: ${FILE_WITH_COLORS}. ${e.message}")
+            when (e) {
                 is IOException -> logError("message: ${e.message}")
                 is SerializationException -> logError("message: ${e.message}")
                 else -> logError("Непредвиденная ошибка: ${e.message}")
             }
             return emptyMap()
         }
+    }
+
+    private fun parseColorsFromYaml(yaml: String): Map<String, String> {
+        val regex = Regex(
+            """^(\w[\w\s+#-]*)\s*:\s*\n(?:.*\n)*?\s+color:\s+"(#[0-9a-fA-F]{6})"""",
+            RegexOption.MULTILINE
+        )
+        return regex.findAll(yaml).map { matchResult ->
+            val (language, color) = matchResult.destructured
+            language to color
+        }.toMap()
     }
 
     private fun logError(message: String) {
@@ -52,7 +63,6 @@ class LanguageColorRepository @Inject constructor(@ApplicationContext context: C
     companion object {
         private const val TAG = "LANGUAGE_COLOR_REPOSITORY"
         private const val OTHER_LANGUAGE_COLOR = "#808080"
-        private const val FILE_WITH_COLORS = "github-lang-colors.json"
     }
 
 }

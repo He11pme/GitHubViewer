@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.RecyclerView
 import com.airbnb.lottie.LottieDrawable
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
@@ -47,6 +49,12 @@ class RepositoriesListFragment : Fragment() {
         binding.apply {
             recyclerRepositories.adapter = adapter
             recyclerRepositories.itemAnimator = SlideInDownAnimator()
+            recyclerRepositories.addItemDecoration(
+                DividerItemDecoration(
+                    requireContext(),
+                    RecyclerView.VERTICAL
+                ).apply { setDrawable(resources.getDrawable(R.drawable.divider_item_repos)) }
+            )
         }
     }
 
