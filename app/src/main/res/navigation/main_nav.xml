@@ -12,16 +12,21 @@
         tools:layout="@layout/fragment_auth" >
         <action
             android:id="@+id/navigateFromAuthFragmentToRepositoriesListFragment"
-            app:destination="@id/repositoriesListFragment" />
+            app:destination="@id/repositoriesListFragment"
+            app:popUpTo="@id/authFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/repositoriesListFragment"
         android:name="ivan.mineev.githubviewer.fragments.repos.RepositoriesListFragment"
-        android:label="fragment_repositories_list"
-        tools:layout="@layout/fragment_repositories_list" >
+        android:label="Repositories"
+        tools:layout="@layout/fragment_repositories_list">
         <action
             android:id="@+id/navigateFromRepositoriesListFragmentToDetailInfoFragment"
             app:destination="@id/detailInfoFragment" />
+        <action
+            android:id="@+id/navigateFromRepositoriesListFragmentToAuthFragment"
+            app:destination="@id/authFragment" />
     </fragment>
     <fragment
         android:id="@+id/detailInfoFragment"

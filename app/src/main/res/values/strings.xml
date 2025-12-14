@@ -16,5 +16,6 @@
     <string name="unexpected_error">Unexpected error</string>
     <string name="empty_token">Token cannot be empty</string>
     <string name="empty_list">No items found</string>
+    <string name="logout">Logout</string>
 
 </resources>

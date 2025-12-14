@@ -4,13 +4,17 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import ivan.mineev.githubviewer.repository.AppRepository
+import ivan.mineev.githubviewer.utils.SessionManager
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class MainActivityViewModel @Inject constructor(private val appRepository: AppRepository) :
+class MainActivityViewModel @Inject constructor(
+    private val appRepository: AppRepository,
+    private val sessionManager: SessionManager
+) :
     ViewModel() {
 
     private val _actions = MutableSharedFlow<Action>()
@@ -20,6 +24,7 @@ class MainActivityViewModel @Inject constructor(private val appRepository: AppRe
 
     init {
         trySignIn()
+        observeSession()
     }
 
     private fun trySignIn() {
@@ -34,20 +39,39 @@ class MainActivityViewModel @Inject constructor(private val appRepository: AppRe
     }
 
     private suspend fun handleSuccessSignIn() {
-        _actions.emit(Action.RouteToRepositories)
+        _actions.emit(Action.SetReposAsStart)
     }
 
     private suspend fun handleFailureSignIn() {
-        _actions.emit(Action.RouteToAuth)
+        _actions.emit(Action.SetAuthAsStart)
     }
 
     private fun releaseSplashScreen() {
         keepSplashScreen = false
     }
 
+    private fun observeSession() {
+        viewModelScope.launch {
+            sessionManager.action.collect { action ->
+                when (action) {
+                    SessionManager.SessionAction.Logout -> {
+                        _actions.emit(Action.RouteToAuth)
+                    }
+                }
+            }
+        }
+    }
+
+    fun onLogoutClicked() {
+        viewModelScope.launch {
+            sessionManager.logout()
+        }
+    }
+
     sealed interface Action {
+        object SetAuthAsStart : Action
+        object SetReposAsStart : Action
         object RouteToAuth : Action
-        object RouteToRepositories : Action
     }
 
 }

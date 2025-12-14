@@ -61,6 +61,12 @@ class AppRepository @Inject constructor(
         return GitHubApi.authorized.getRepositories()
     }
 
+    fun logout() {
+        keyValueStorage.deleteToken()
+        _user = null
+        _repositories = null
+    }
+
     companion object {
         private const val NEW_TOKEN_PREFIX = "Bearer"
         private const val OLD_TOKEN_PREFIX = "token"

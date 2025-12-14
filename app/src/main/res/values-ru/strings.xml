@@ -15,5 +15,6 @@
     <string name="unexpected_error">Непредвиденная ошибка</string>
     <string name="empty_token">Токен не может быть пустым</string>
     <string name="empty_list">Список пуст</string>
+    <string name="logout">Выход</string>
 
 </resources>

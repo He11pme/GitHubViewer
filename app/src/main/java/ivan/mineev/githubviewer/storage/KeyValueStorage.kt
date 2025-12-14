@@ -20,6 +20,10 @@ class KeyValueStorage @Inject constructor(private val sharedPreferences: SharedP
         authToken = token
     }
 
+    fun deleteToken() {
+        authToken = null
+    }
+
     companion object {
         private const val KEY_TOKEN = "saved_token"
 

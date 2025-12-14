@@ -9,6 +9,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import ivan.mineev.githubviewer.R
 import ivan.mineev.githubviewer.model.Repo
 import ivan.mineev.githubviewer.repository.AppRepository
+import ivan.mineev.githubviewer.utils.SessionManager
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
@@ -18,7 +19,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class RepositoriesViewModel @Inject constructor(
-    val appRepository: AppRepository
+    val appRepository: AppRepository,
+    val sessionManager: SessionManager
 ) : ViewModel() {
 
     private val _state = MutableLiveData<State>()
@@ -72,8 +74,8 @@ class RepositoriesViewModel @Inject constructor(
         }
     }
 
-    private fun forceLogout() {
-        TODO("Not yet implemented")
+    private suspend fun forceLogout() {
+        sessionManager.logout()
     }
 
     private fun handleUnexpectedError() {

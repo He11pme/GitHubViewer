@@ -1,6 +1,7 @@
 package ivan.mineev.githubviewer.activities
 
 import android.os.Bundle
+import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -9,14 +10,19 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupWithNavController
 import dagger.hilt.android.AndroidEntryPoint
 import ivan.mineev.githubviewer.R
+import ivan.mineev.githubviewer.databinding.ActivityMainBinding
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var binding: ActivityMainBinding
     private val viewModel: MainActivityViewModel by viewModels()
     private lateinit var navHostFragment: NavHostFragment
 
@@ -26,12 +32,30 @@ class MainActivity : AppCompatActivity() {
 
         super.onCreate(savedInstanceState)
 
+        binding = ActivityMainBinding.inflate(layoutInflater)
+
         enableEdgeToEdge()
-        setContentView(R.layout.activity_main)
+        setContentView(binding.root)
 
         initNavHostFragment()
         bindAction()
         setInsets()
+        observeDestinationChanges()
+
+        val appBarConfig =
+            AppBarConfiguration(setOf(R.id.authFragment, R.id.repositoriesListFragment))
+        binding.appBar.setupWithNavController(navHostFragment.navController, appBarConfig)
+
+        binding.appBar.setOnMenuItemClickListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.logout -> {
+                    viewModel.onLogoutClicked()
+                    true
+                }
+
+                else -> false
+            }
+        }
 
     }
 
@@ -58,14 +82,29 @@ class MainActivity : AppCompatActivity() {
 
     private fun handleAction(action: MainActivityViewModel.Action) {
         when (action) {
-            MainActivityViewModel.Action.RouteToAuth -> {
+            MainActivityViewModel.Action.SetAuthAsStart -> {
                 setStartFragment(StartFragment.AUTH.ID)
             }
 
-            MainActivityViewModel.Action.RouteToRepositories -> {
+            MainActivityViewModel.Action.SetReposAsStart -> {
                 setStartFragment(StartFragment.REPOSITORIES.ID)
             }
+
+            MainActivityViewModel.Action.RouteToAuth -> {
+                navigateToAuth()
+            }
         }
+    }
+
+    private fun navigateToAuth() {
+        navHostFragment.navController.navigate(
+            R.id.authFragment,
+            null,
+            NavOptions.Builder()
+                .setPopUpTo(R.id.main_nav, inclusive = true)
+                .setRestoreState(false)
+                .build()
+        )
     }
 
     private fun setStartFragment(fragmentId: Int) {
@@ -77,15 +116,32 @@ class MainActivity : AppCompatActivity() {
             supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
     }
 
+    private fun observeDestinationChanges() {
+        navHostFragment.navController.addOnDestinationChangedListener { _, destination, _ ->
+            when (destination.id) {
+                R.id.authFragment -> {
+                    binding.appBar.visibility = View.GONE
+                }
 
-    fun NavController.setStartDestination(fragmentId: Int, graphRes: Int) {
-        graph = navInflater.inflate(graphRes).apply {
-            setStartDestination(fragmentId)
+                R.id.repositoriesListFragment -> {
+                    binding.appBar.visibility = View.VISIBLE
+                }
+
+                R.id.detailInfoFragment -> {
+                    binding.appBar.visibility = View.VISIBLE
+                }
+            }
         }
     }
 
     enum class StartFragment(val ID: Int) {
         AUTH(R.id.authFragment),
         REPOSITORIES(R.id.repositoriesListFragment)
+    }
+}
+
+private fun NavController.setStartDestination(fragmentId: Int, graphRes: Int) {
+    graph = navInflater.inflate(graphRes).apply {
+        setStartDestination(fragmentId)
     }
 }
