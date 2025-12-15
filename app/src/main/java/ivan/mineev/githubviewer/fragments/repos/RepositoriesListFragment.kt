@@ -1,12 +1,14 @@
 package ivan.mineev.githubviewer.fragments.repos
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import com.airbnb.lottie.LottieDrawable
@@ -24,7 +26,7 @@ class RepositoriesListFragment : Fragment() {
 
     private val viewModel: RepositoriesViewModel by viewModels()
 
-    private val adapter = ReposAdapter()
+    private val adapter = ReposAdapter(::openRepoDetails)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,6 +43,7 @@ class RepositoriesListFragment : Fragment() {
     }
 
     private fun initLoadRepositories() {
+        Log.d("REPOS", "INIT LOAD")
         viewModel.loadRepositories()
     }
 
@@ -187,6 +190,12 @@ class RepositoriesListFragment : Fragment() {
 
     private fun showSnackbar(message: String) {
         Snackbar.make(binding.root, message, Snackbar.LENGTH_SHORT).show()
+    }
+
+    private fun openRepoDetails(name: String) {
+        val bundle = Bundle().apply { putString("nameRepo", name) }
+        binding.root.findNavController()
+            .navigate(R.id.navigateFromRepositoriesListFragmentToDetailInfoFragment, bundle)
     }
 
 }

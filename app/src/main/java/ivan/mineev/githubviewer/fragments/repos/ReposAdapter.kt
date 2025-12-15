@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import ivan.mineev.githubviewer.databinding.ItemRepoBinding
 import ivan.mineev.githubviewer.model.Repo
 
-class ReposAdapter : ListAdapter<Repo, ReposAdapter.ViewHolder>(ReposDiffCallback()) {
+class ReposAdapter(val openRepoDetails: (name: String) -> Unit) : ListAdapter<Repo, ReposAdapter.ViewHolder>(ReposDiffCallback()) {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -27,7 +27,7 @@ class ReposAdapter : ListAdapter<Repo, ReposAdapter.ViewHolder>(ReposDiffCallbac
         holder.bind(getItem(position))
     }
 
-    class ViewHolder(private val binding: ItemRepoBinding) :
+    inner class ViewHolder(private val binding: ItemRepoBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(repo: Repo) {
             binding.apply {
@@ -46,6 +46,8 @@ class ReposAdapter : ListAdapter<Repo, ReposAdapter.ViewHolder>(ReposDiffCallbac
                 }
 
             }
+
+            binding.root.setOnClickListener { openRepoDetails(repo.name) }
 
         }
     }

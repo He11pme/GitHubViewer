@@ -2,6 +2,7 @@ package ivan.mineev.githubviewer.repository
 
 import dagger.hilt.android.scopes.ActivityRetainedScoped
 import ivan.mineev.githubviewer.model.Repo
+import ivan.mineev.githubviewer.model.RepoDetails
 import ivan.mineev.githubviewer.model.UserInfo
 import ivan.mineev.githubviewer.network.GitHubApi
 import ivan.mineev.githubviewer.storage.KeyValueStorage
@@ -59,6 +60,18 @@ class AppRepository @Inject constructor(
 
     private suspend fun getRepositories(): List<Repo> {
         return GitHubApi.authorized.getRepositories().setColor(colorRepository)
+    }
+
+    suspend fun loadRepo(repo: String): Result<RepoDetails> {
+        return try {
+            Result.success(getRepo(repo))
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    private suspend fun getRepo(repo: String): RepoDetails {
+        return GitHubApi.authorized.getRepository(user.login, repo)
     }
 
     fun logout() {

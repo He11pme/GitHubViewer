@@ -30,11 +30,14 @@
     </fragment>
     <fragment
         android:id="@+id/detailInfoFragment"
-        android:name="ivan.mineev.githubviewer.fragments.info.DetailInfoFragment"
+        android:name="ivan.mineev.githubviewer.fragments.info.RepositoryInfoFragment"
         android:label="fragment_detail_info"
         tools:layout="@layout/fragment_detail_info" >
         <action
             android:id="@+id/navigateFromDetailInfoFragmentToRepositoriesListFragment"
             app:destination="@id/repositoriesListFragment" />
+        <argument
+            android:name="nameRepo"
+            app:argType="string" />
     </fragment>
 </navigation>
