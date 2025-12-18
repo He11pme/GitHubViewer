@@ -8,8 +8,10 @@ import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
+import retrofit2.converter.scalars.ScalarsConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Header
+import retrofit2.http.Headers
 import retrofit2.http.Path
 import retrofit2.http.Query
 
@@ -20,6 +22,7 @@ private val json = Json {
 }
 
 private val basicRetrofit = Retrofit.Builder()
+    .addConverterFactory(ScalarsConverterFactory.create())
     .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
     .baseUrl(BASE_URL)
     .build()
@@ -41,6 +44,13 @@ interface GitHubApiService {
         @Path("owner") owner: String,
         @Path("repo") repo: String
     ): RepoDetails
+
+    @GET("repos/{owner}/{repo}/readme")
+    @Headers("Accept: application/vnd.github.raw")
+    suspend fun getReadme(
+        @Path("owner") owner: String,
+        @Path("repo") repo: String
+    ): String
 
 }
 
@@ -64,12 +74,16 @@ object GitHubApi {
 
     private fun createClient(token: String): OkHttpClient {
         return OkHttpClient.Builder().addInterceptor { chain ->
-            val req = chain.request()
-                .newBuilder()
-                .addHeader("Authorization", token)
-                .addHeader("Accept", "application/vnd.github+json")
-                .build()
-            chain.proceed(req)
+
+            val original = chain.request()
+            val builder = original.newBuilder()
+
+            builder.addHeader("Authorization", token)
+            if (original.header("Accept") == null) {
+                builder.addHeader("Accept", "application/vnd.github+json")
+            }
+
+            chain.proceed(builder.build())
         }.build()
     }
 

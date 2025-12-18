@@ -40,7 +40,7 @@ class RepositoryInfoFragment : Fragment() {
     }
 
     private fun handleState(state: RepositoryInfoViewModel.State) {
-        if (state is RepositoryInfoViewModel.State.Loaded) Log.d("DETAIL","${state.gitHubRepo}")
+        if (state is RepositoryInfoViewModel.State.Loaded) Log.d("DETAIL","${state.gitHubRepo} readme: ${state.readmeState}")
     }
 
 }

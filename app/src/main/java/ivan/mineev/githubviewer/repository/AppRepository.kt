@@ -74,6 +74,18 @@ class AppRepository @Inject constructor(
         return GitHubApi.authorized.getRepository(user.login, repo)
     }
 
+    suspend fun loadReadme(repo: String): Result<String> {
+        return try {
+            Result.success(getReadme(repo))
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    private suspend fun getReadme(repo: String): String {
+        return GitHubApi.authorized.getReadme(user.login, repo)
+    }
+
     fun logout() {
         keyValueStorage.deleteToken()
         _user = null
