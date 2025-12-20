@@ -9,15 +9,26 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import ivan.mineev.githubviewer.R
 import ivan.mineev.githubviewer.model.RepoDetails
 import ivan.mineev.githubviewer.repository.AppRepository
+import ivan.mineev.githubviewer.utils.SessionManager
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
+import okio.IOException
 import retrofit2.HttpException
 import javax.inject.Inject
 
 @HiltViewModel
-class RepositoryInfoViewModel @Inject constructor(val appRepository: AppRepository) : ViewModel() {
+class RepositoryInfoViewModel @Inject constructor(
+    val appRepository: AppRepository,
+    val sessionManager: SessionManager
+) : ViewModel() {
 
     private val _state = MutableLiveData<State>()
     val state: LiveData<State> get() = _state
+
+    private val _actions = MutableSharedFlow<Action>()
+
+    val actions: Flow<Action> get() = _actions
 
     private lateinit var repository: RepoDetails
     private var readmeState: ReadmeState? = null
@@ -26,30 +37,14 @@ class RepositoryInfoViewModel @Inject constructor(val appRepository: AppReposito
         _state.value = State.Loading
         viewModelScope.launch {
             tryLoadRepository(nameRepo).apply {
-                onSuccess {
-                    repository = it
-                    _state.value = State.Loaded(repository, readmeState)
-                }
-                onFailure {
-                    _state.value = State.Error(R.string.unexpected_error)
-                    Log.e("DETAIL", it.message.toString())
-                }
+                onSuccess { handleSuccessLoadRepo(it) }
+                onFailure { handleErrorLoadRepo(it) }
             }
             tryLoadReadme(nameRepo).apply {
-                onSuccess {
-                    readmeState = ReadmeState.Loaded(it)
-                    if (state.value is State.Loaded) _state.value = State.Loaded(repository, readmeState)
-                }
-                onFailure { e ->
-                    when(e) {
-                        is HttpException -> {
-                            if (e.code() == 404) {
-                                readmeState = ReadmeState.Empty
-                            }
-                        }
-                    }
-                    Log.e("DETAIL", e.message.toString())
-                }
+                onSuccess { handleSuccessLoadReadme(it) }
+                onFailure { e -> handleErrorLoadReadme(e) }
+                if (state.value is State.Loaded) _state.value =
+                    State.Loaded(repository, readmeState)
             }
         }
     }
@@ -64,13 +59,72 @@ class RepositoryInfoViewModel @Inject constructor(val appRepository: AppReposito
         return appRepository.loadReadme(nameRepo)
     }
 
-    private fun handleSuccess(details: RepoDetails) {
-//        setRepository(details)
-        _state.value = State.Loaded(details, null)
+    private fun handleSuccessLoadRepo(details: RepoDetails) {
+        repository = details
+        _state.value = State.Loaded(repository, readmeState)
     }
 
-    private fun handleError(e: Throwable) {
-        Log.e("DETAIL", e.message.toString())
+    private suspend fun handleErrorLoadRepo(e: Throwable) {
+        when (e) {
+            is IOException -> handleIOExceptionLoadRepo()
+            is HttpException -> handleHttpExceptionLoadRepo(e)
+            else -> handleUnexpectedErrorLoadRepo()
+        }
+        Log.e(TAG, e.message.toString())
+    }
+
+    private fun handleSuccessLoadReadme(string: String) {
+        readmeState = ReadmeState.Loaded(string)
+    }
+
+    private suspend fun handleErrorLoadReadme(e: Throwable) {
+        when (e) {
+            is IOException -> handleIOExceptionLoadReadme()
+            is HttpException -> handleHttpExceptionLoadReadme(e)
+            else -> handleUnexpectedErrorLoadReadme()
+        }
+        Log.e(TAG, e.message.toString())
+    }
+
+    private fun handleIOExceptionLoadRepo() {
+        _state.value = State.Error(R.string.network_error)
+    }
+
+    private fun handleIOExceptionLoadReadme() {
+        readmeState = ReadmeState.Error(R.string.network_error)
+    }
+
+    private suspend fun handleHttpExceptionLoadRepo(e: HttpException) {
+        when (e.code()) {
+            401 -> forceLogout()
+            403 -> _state.value = State.Error(R.string.forbidden_error)
+            404 -> _state.value = State.Error(R.string.repository_not_found)
+
+            else -> _state.value = State.Error(R.string.server_error)
+        }
+    }
+
+    private suspend fun handleHttpExceptionLoadReadme(e: HttpException) {
+        when (e.code()) {
+            401 -> forceLogout()
+            403 -> readmeState = ReadmeState.Error(R.string.forbidden_error)
+            404 -> readmeState = ReadmeState.Empty
+
+            else -> readmeState = ReadmeState.Error(R.string.server_error)
+        }
+    }
+
+    private fun handleUnexpectedErrorLoadRepo() {
+        _state.value = State.Error(R.string.unexpected_error)
+    }
+
+    private fun handleUnexpectedErrorLoadReadme() {
+        readmeState = ReadmeState.Error(R.string.unexpected_error)
+    }
+
+    private suspend fun forceLogout() {
+        _actions.emit(Action.ForceLogout(R.string.unauthorized_error))
+        sessionManager.logout()
     }
 
     sealed interface State {
@@ -87,6 +141,14 @@ class RepositoryInfoViewModel @Inject constructor(val appRepository: AppReposito
         object Empty : ReadmeState
         data class Error(val error: Int) : ReadmeState
         data class Loaded(val markdown: String) : ReadmeState
+    }
+
+    sealed interface Action {
+        data class ForceLogout(val message: Int) : Action
+    }
+
+    companion object {
+        private const val TAG = "REPO_INFO"
     }
 
 

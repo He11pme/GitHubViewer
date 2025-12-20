@@ -21,6 +21,9 @@
     <string name="unexpected_error">Unexpected error</string>
     <string name="empty_token">Token cannot be empty</string>
     <string name="empty_list">No items found</string>
+    <string name="repository_not_found">Repository not found</string>
+    <string name="readme_not_found">README not found</string>
+    <string name="load_readme">LOADING README</string>
 
 
 </resources>

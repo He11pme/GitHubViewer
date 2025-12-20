@@ -1,7 +1,6 @@
 package ivan.mineev.githubviewer.fragments.repos
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -43,7 +42,6 @@ class RepositoriesListFragment : Fragment() {
     }
 
     private fun initLoadRepositories() {
-        Log.d("REPOS", "INIT LOAD")
         viewModel.loadRepositories()
     }
 

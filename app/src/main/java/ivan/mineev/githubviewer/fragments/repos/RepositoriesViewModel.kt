@@ -68,11 +68,12 @@ class RepositoriesViewModel @Inject constructor(
 
     private suspend fun handleHttpException(e: HttpException) {
         when (e.code()) {
-            401 -> _state.value = State.Error(R.string.unauthorized_error)
-            403 -> {
-                _actions.emit(Action.ForceLogout(R.string.forbidden_error))
+            401 -> {
+                _actions.emit(Action.ForceLogout(R.string.unauthorized_error))
                 forceLogout()
             }
+
+            403 -> _state.value = State.Error(R.string.forbidden_error)
 
             else -> _state.value = State.Error(R.string.server_error)
         }

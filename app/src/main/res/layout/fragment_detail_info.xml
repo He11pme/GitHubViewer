@@ -95,11 +95,37 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            tools:text="README"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/forksCounter" />
+            app:layout_constraintTop_toBottomOf="@+id/forksCounter"
+            tools:text="README" />
 
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/animationViewRepos"
+            android:layout_width="250dp"
+            android:layout_height="250dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/readmeView" />
+
+        <TextView
+            android:id="@+id/descriptionAnimation"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="100dp"
+            android:layout_marginEnd="100dp"
+            android:gravity="center"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/animationViewRepos" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/groupDataRepo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="linkView, titleLicenceView, licenceTV, starsCounter, forksCounter, watchersCounter" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
