@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -33,8 +35,17 @@ class AuthFragment : Fragment() {
         binding.viewModel = viewModel
 
         bindToViewModel()
+        setInsets()
 
         return binding.root
+    }
+
+    private fun setInsets() {
+        ViewCompat.setOnApplyWindowInsetsListener(binding.signInButtonContainer) { v, insets ->
+            val imeInsets = insets.getInsets(WindowInsetsCompat.Type.ime())
+            v.setPadding(0,0,0, imeInsets.bottom)
+            insets
+        }
     }
 
     private fun bindToViewModel() {
