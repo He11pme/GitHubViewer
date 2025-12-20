@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import ivan.mineev.githubviewer.repository.AppRepository
+import ivan.mineev.githubviewer.utils.AppBarManager
 import ivan.mineev.githubviewer.utils.SessionManager
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -13,7 +14,8 @@ import javax.inject.Inject
 @HiltViewModel
 class MainActivityViewModel @Inject constructor(
     private val appRepository: AppRepository,
-    private val sessionManager: SessionManager
+    private val sessionManager: SessionManager,
+    private val appBarManager: AppBarManager
 ) :
     ViewModel() {
 
@@ -25,6 +27,7 @@ class MainActivityViewModel @Inject constructor(
     init {
         trySignIn()
         observeSession()
+        observeAppBarManager()
     }
 
     private fun trySignIn() {
@@ -62,7 +65,21 @@ class MainActivityViewModel @Inject constructor(
         }
     }
 
-    fun onLogoutClicked() {
+    private fun observeAppBarManager() {
+        viewModelScope.launch {
+            appBarManager.action.collect { action ->
+                when (action) {
+                    is AppBarManager.AppBarAction.SetTitle -> {
+                        _actions.emit(Action.SetTitleAppBar(action.title))
+                    }
+                }
+            }
+        }
+    }
+
+    fun onLogoutPressed() = logout()
+
+    private fun logout() {
         viewModelScope.launch {
             sessionManager.logout()
         }
@@ -72,6 +89,8 @@ class MainActivityViewModel @Inject constructor(
         object SetAuthAsStart : Action
         object SetReposAsStart : Action
         object RouteToAuth : Action
+
+        data class SetTitleAppBar(val title: String) : Action
     }
 
 }

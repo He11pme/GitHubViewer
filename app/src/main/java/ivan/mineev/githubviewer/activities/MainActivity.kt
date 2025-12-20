@@ -40,8 +40,15 @@ class MainActivity : AppCompatActivity() {
         initNavHostFragment()
         bindAction()
         setInsets()
-        observeDestinationChanges()
+        setupViews()
 
+    }
+
+    private fun setupViews() {
+        setupAppBar()
+    }
+
+    private fun setupAppBar() {
         val appBarConfig =
             AppBarConfiguration(setOf(R.id.authFragment, R.id.repositoriesListFragment))
         binding.appBar.setupWithNavController(navHostFragment.navController, appBarConfig)
@@ -49,14 +56,32 @@ class MainActivity : AppCompatActivity() {
         binding.appBar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.logout -> {
-                    viewModel.onLogoutClicked()
+                    viewModel.onLogoutPressed()
                     true
                 }
 
                 else -> false
             }
         }
+        observeDestinationChanges()
+    }
 
+    private fun observeDestinationChanges() {
+        navHostFragment.navController.addOnDestinationChangedListener { _, destination, _ ->
+            when (destination.id) {
+                R.id.authFragment -> {
+                    binding.appBar.visibility = View.GONE
+                }
+
+                R.id.repositoriesListFragment -> {
+                    binding.appBar.visibility = View.VISIBLE
+                }
+
+                R.id.detailInfoFragment -> {
+                    binding.appBar.visibility = View.VISIBLE
+                }
+            }
+        }
     }
 
     private fun setSplashScreen() {
@@ -93,7 +118,15 @@ class MainActivity : AppCompatActivity() {
             MainActivityViewModel.Action.RouteToAuth -> {
                 navigateToAuth()
             }
+
+            is MainActivityViewModel.Action.SetTitleAppBar -> {
+                setTitleAppBar(action)
+            }
         }
+    }
+
+    private fun setTitleAppBar(action: MainActivityViewModel.Action.SetTitleAppBar) {
+        binding.appBar.title = action.title
     }
 
     private fun navigateToAuth() {
@@ -114,24 +147,6 @@ class MainActivity : AppCompatActivity() {
     private fun initNavHostFragment() {
         navHostFragment =
             supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
-    }
-
-    private fun observeDestinationChanges() {
-        navHostFragment.navController.addOnDestinationChangedListener { _, destination, _ ->
-            when (destination.id) {
-                R.id.authFragment -> {
-                    binding.appBar.visibility = View.GONE
-                }
-
-                R.id.repositoriesListFragment -> {
-                    binding.appBar.visibility = View.VISIBLE
-                }
-
-                R.id.detailInfoFragment -> {
-                    binding.appBar.visibility = View.VISIBLE
-                }
-            }
-        }
     }
 
     enum class StartFragment(val ID: Int) {

@@ -36,6 +36,7 @@ class RepositoryInfoFragment : Fragment() {
         binding = FragmentDetailInfoBinding.inflate(layoutInflater, container, false)
 
         getArgs()
+        setTitleAppBar(repoNameProvided)
         bindToViewModel()
         initLoadRepo(repoNameProvided)
         setupViews()
@@ -46,6 +47,10 @@ class RepositoryInfoFragment : Fragment() {
     private fun getArgs() {
         repoNameProvided =
             arguments?.getString("nameRepo") ?: throw Exception("Not bundle id repository")
+    }
+
+    private fun setTitleAppBar(repoName: String) {
+        viewModel.setTitleAppBar(repoName)
     }
 
     private fun bindToViewModel() {

@@ -31,7 +31,7 @@
     <fragment
         android:id="@+id/detailInfoFragment"
         android:name="ivan.mineev.githubviewer.fragments.info.RepositoryInfoFragment"
-        android:label="fragment_detail_info"
+        android:label=""
         tools:layout="@layout/fragment_detail_info" >
         <action
             android:id="@+id/navigateFromDetailInfoFragmentToRepositoriesListFragment"

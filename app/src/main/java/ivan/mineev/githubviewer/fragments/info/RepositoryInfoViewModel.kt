@@ -9,6 +9,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import ivan.mineev.githubviewer.R
 import ivan.mineev.githubviewer.model.RepoDetails
 import ivan.mineev.githubviewer.repository.AppRepository
+import ivan.mineev.githubviewer.utils.AppBarManager
 import ivan.mineev.githubviewer.utils.SessionManager
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -20,7 +21,8 @@ import javax.inject.Inject
 @HiltViewModel
 class RepositoryInfoViewModel @Inject constructor(
     val appRepository: AppRepository,
-    val sessionManager: SessionManager
+    val sessionManager: SessionManager,
+    val appBarManager: AppBarManager
 ) : ViewModel() {
 
     private val _state = MutableLiveData<State>()
@@ -32,6 +34,12 @@ class RepositoryInfoViewModel @Inject constructor(
 
     private lateinit var repository: RepoDetails
     private var readmeState: ReadmeState? = null
+
+    fun setTitleAppBar(nameRepo: String) {
+        viewModelScope.launch {
+            appBarManager.setTitleAppBar(nameRepo)
+        }
+    }
 
     fun loadRepo(nameRepo: String) {
         _state.value = State.Loading
