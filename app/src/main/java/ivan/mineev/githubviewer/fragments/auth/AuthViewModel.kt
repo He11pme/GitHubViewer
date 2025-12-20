@@ -36,6 +36,8 @@ class AuthViewModel @Inject constructor(val appRepository: AppRepository) : View
                 return
             }
 
+            viewModelScope.launch { _actions.emit(Action.HideKeyboard) }
+
             _state.value = State.Loading
 
             trySignIn(currentToken)
@@ -96,6 +98,7 @@ class AuthViewModel @Inject constructor(val appRepository: AppRepository) : View
         // message is id fro string resources
         data class ShowError(val message: Int) : Action
         object RouteToMain : Action
+        object HideKeyboard : Action
     }
 
     companion object {

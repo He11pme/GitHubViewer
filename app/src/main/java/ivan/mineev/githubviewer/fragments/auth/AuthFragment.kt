@@ -1,10 +1,13 @@
 package ivan.mineev.githubviewer.fragments.auth
 
 import android.animation.Animator
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
@@ -36,21 +39,45 @@ class AuthFragment : Fragment() {
 
         bindToViewModel()
         setInsets()
+        setupViews()
 
         return binding.root
-    }
-
-    private fun setInsets() {
-        ViewCompat.setOnApplyWindowInsetsListener(binding.signInButtonContainer) { v, insets ->
-            val imeInsets = insets.getInsets(WindowInsetsCompat.Type.ime())
-            v.setPadding(0,0,0, imeInsets.bottom)
-            insets
-        }
     }
 
     private fun bindToViewModel() {
         bindState()
         bindAction()
+    }
+
+    private fun setInsets() {
+        setInsetsSignInButton()
+    }
+
+    private fun setInsetsSignInButton() {
+        ViewCompat.setOnApplyWindowInsetsListener(binding.signInButtonContainer) { v, insets ->
+            val imeInsets = insets.getInsets(WindowInsetsCompat.Type.ime())
+            v.setPadding(0, 0, 0, imeInsets.bottom)
+            insets
+        }
+    }
+
+    private fun setupViews() {
+        setupTokenInput()
+    }
+
+    private fun setupTokenInput() {
+        binding.tokenInputEditText.setOnEditorActionListener { _, actionId, _ ->
+            handleEditorAction(actionId)
+        }
+    }
+
+    private fun handleEditorAction(actionId: Int): Boolean =
+        if (actionId == EditorInfo.IME_ACTION_DONE) enterPressed()
+        else false
+
+    private fun enterPressed(): Boolean {
+        viewModel.onSignButtonPressed()
+        return true
     }
 
     private fun bindState() {
@@ -96,6 +123,8 @@ class AuthFragment : Fragment() {
                 playRejectAnimation()
                 showError(action.message)
             }
+
+            AuthViewModel.Action.HideKeyboard -> hideKeyboard()
         }
     }
 
@@ -144,4 +173,10 @@ class AuthFragment : Fragment() {
             .navigate(R.id.navigateFromAuthFragmentToRepositoriesListFragment)
     }
 
+    private fun hideKeyboard() {
+        val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(binding.root.windowToken, 0)
+    }
+
 }
+

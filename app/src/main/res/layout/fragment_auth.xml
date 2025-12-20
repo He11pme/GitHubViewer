@@ -37,9 +37,12 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tokenInputEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/personal_access_token"
+                android:imeOptions="actionDone"
+                android:inputType="text"
                 android:text="@={viewModel.token}" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -51,8 +54,7 @@
             app:layout_constraintBottom_toTopOf="@+id/signInButtonContainer"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tokenInputLayout"
-            />
+            app:layout_constraintTop_toBottomOf="@+id/tokenInputLayout" />
 
         <FrameLayout
             android:id="@+id/signInButtonContainer"
@@ -67,9 +69,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/sign_in"
                 android:onClickListener="@{() -> viewModel.onSignButtonPressed()}"
-                />
+                android:text="@string/sign_in" />
         </FrameLayout>
 
 
