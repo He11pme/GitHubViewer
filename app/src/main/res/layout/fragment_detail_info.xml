@@ -1,46 +1,107 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragments.info.RepositoryInfoFragment">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:text="https://github.com/icerockdev/moko-resources.git"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:padding="10dp">
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="License"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
-
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TextView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
-
-    <ivan.mineev.githubviewer.view.compound.CounterView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:icon="@drawable/ic_logout"
-        app:iconColor="@color/black"
-        app:labelText="JustTest"
-        app:valueText="555"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+        <ivan.mineev.githubviewer.view.compound.TextWithIconView
+            android:id="@+id/linkView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            app:icon="@drawable/ic_link"
+            app:iconColor="#57A5FD"
+            app:labelColor="#57A5FD"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:labelText="https://github.com/icerockdev/moko-resources.git" />
 
 
+        <ivan.mineev.githubviewer.view.compound.TextWithIconView
+            android:id="@+id/titleLicenceView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            app:icon="@drawable/ic_license"
+            app:labelText="@string/license"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linkView" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/licenceTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linkView"
+            tools:text="Apache 2.0" />
+
+        <ivan.mineev.githubviewer.view.compound.CounterView
+            android:id="@+id/starsCounter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            app:icon="@drawable/ic_star"
+            app:iconColor="#FCD54B"
+            app:labelText="@string/stars"
+            app:layout_constraintEnd_toStartOf="@+id/forksCounter"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/titleLicenceView"
+            app:valueColor="#FCD54B"
+            tools:valueText="555" />
+
+        <ivan.mineev.githubviewer.view.compound.CounterView
+            android:id="@+id/forksCounter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:icon="@drawable/ic_git_forks"
+            app:iconColor="#3FD462"
+            app:labelText="@string/forks"
+            app:layout_constraintEnd_toStartOf="@+id/watchersCounter"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/starsCounter"
+            app:layout_constraintTop_toTopOf="@+id/starsCounter"
+            app:valueColor="#3FD462"
+            tools:valueText="555" />
+
+        <ivan.mineev.githubviewer.view.compound.CounterView
+            android:id="@+id/watchersCounter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:icon="@drawable/ic_watchers"
+            app:iconColor="#2E8FFD"
+            app:labelText="@string/watchers"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/forksCounter"
+            app:layout_constraintTop_toTopOf="@+id/starsCounter"
+            app:valueColor="#2E8FFD"
+            tools:valueText="555" />
+
+        <TextView
+            android:id="@+id/readmeView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            tools:text="README"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/forksCounter" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</ScrollView>

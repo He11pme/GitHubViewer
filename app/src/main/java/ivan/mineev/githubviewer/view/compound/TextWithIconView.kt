@@ -20,9 +20,12 @@ open class TextWithIconView @JvmOverloads constructor(
     @LayoutRes layout: Int = R.layout.view_text_with_icon
 ) : LinearLayout(context, attributeSet, defStyleAttr) {
 
+    // VIEWS
     private val iconView: ImageView
 
     private val labelView: TextView
+
+    // DEFAULT VALUE ATTRIBUTES
 
     private val defaultIconSize = 20.dp
 
@@ -33,6 +36,12 @@ open class TextWithIconView @JvmOverloads constructor(
     private val defaultLabelColor by lazy {
         ContextCompat.getColor(context, R.color.black)
     }
+
+    // DYNAMIC ATTRIBUTES
+
+    var label: String
+        get() = labelView.text.toString()
+        set(value) {labelView.text = value}
 
     init {
         LayoutInflater.from(context).inflate(layout, this, true)
@@ -80,7 +89,6 @@ open class TextWithIconView @JvmOverloads constructor(
     private fun renderLabel(typedArray: TypedArray) {
 
         val labelText = typedArray.getString(R.styleable.TextWithIconView_labelText)
-            ?: error("TextWithIconView: app:labelText is required")
 
         val labelColor =
             typedArray.getColor(R.styleable.TextWithIconView_labelColor, defaultLabelColor)

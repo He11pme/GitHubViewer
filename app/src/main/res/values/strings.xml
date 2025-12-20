@@ -5,6 +5,11 @@
     <string name="loading">LOADING</string>
     <string name="github_logo" translatable="false">GitHub logo</string>
     <string name="private_repository" translatable="false">private</string>
+    <string name="logout">Logout</string>
+    <string name="watchers" translatable="false">watchers</string>
+    <string name="forks" translatable="false">forks</string>
+    <string name="stars" translatable="false">stars</string>
+    <string name="license">License</string>
 
     <!--    ERROR    -->
 
@@ -16,6 +21,6 @@
     <string name="unexpected_error">Unexpected error</string>
     <string name="empty_token">Token cannot be empty</string>
     <string name="empty_list">No items found</string>
-    <string name="logout">Logout</string>
+
 
 </resources>

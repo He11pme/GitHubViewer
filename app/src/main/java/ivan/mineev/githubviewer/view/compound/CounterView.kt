@@ -14,12 +14,22 @@ class CounterView @JvmOverloads constructor(
     defStyleAttr: Int = 0,
     defStyleRes: Int = 0
 ) : TextWithIconView(context, attributeSet, defStyleAttr, defStyleRes, R.layout.view_counter) {
+
+    // VIEWS
     private val valueView: TextView = findViewById(R.id.value)
+
+    // DEFAULT VALUE ATTRIBUTES
     private val defaultValueSizeSp = 14f
 
     private val defaultValueColor by lazy {
         ContextCompat.getColor(context, R.color.black)
     }
+
+    // DYNAMIC ATTRIBUTES
+
+    var count: String
+        get() = valueView.text.toString()
+        set(value) { valueView.text = value }
 
     init {
         attributeSet?.let { applyCounterAttr(context, it) }
@@ -38,7 +48,6 @@ class CounterView @JvmOverloads constructor(
     private fun renderValue(typedArray: TypedArray) {
 
         val valueText = typedArray.getString(R.styleable.CounterView_valueText)
-            ?: error("TextWithIconView: app:valueText is required when value is show")
 
         val valueColor =
             typedArray.getColor(R.styleable.CounterView_valueColor, defaultValueColor)

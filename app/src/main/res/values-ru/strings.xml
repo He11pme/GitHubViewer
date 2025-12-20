@@ -4,6 +4,8 @@
     <string name="personal_access_token">Личный токен доступа</string>
     <string name="sign_in">ВОЙТИ</string>
     <string name="loading">ЗАГРУЗКА</string>
+    <string name="logout">Выход</string>
+    <string name="license">Лицензия</string>
 
     <!--    ERROR    -->
 
@@ -15,6 +17,6 @@
     <string name="unexpected_error">Непредвиденная ошибка</string>
     <string name="empty_token">Токен не может быть пустым</string>
     <string name="empty_list">Список пуст</string>
-    <string name="logout">Выход</string>
+
 
 </resources>

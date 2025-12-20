@@ -1,7 +1,6 @@
 package ivan.mineev.githubviewer.fragments.info
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import ivan.mineev.githubviewer.databinding.FragmentDetailInfoBinding
+import ivan.mineev.githubviewer.model.RepoDetails
 
 @AndroidEntryPoint
 class RepositoryInfoFragment : Fragment() {
@@ -40,7 +40,25 @@ class RepositoryInfoFragment : Fragment() {
     }
 
     private fun handleState(state: RepositoryInfoViewModel.State) {
-        if (state is RepositoryInfoViewModel.State.Loaded) Log.d("DETAIL","${state.gitHubRepo} readme: ${state.readmeState}")
+        if (state is RepositoryInfoViewModel.State.Loaded) {
+            setDataAboutRepo(state.gitHubRepo)
+            if (state.readmeState != null) setReadme(state.readmeState)
+        }
     }
+
+    private fun setDataAboutRepo(repo: RepoDetails) {
+        binding.apply {
+            linkView.label = repo.url
+            licenceTV.text = repo.license?.name ?: "not found"
+            starsCounter.count = repo.stars.toString()
+            forksCounter.count = repo.forks.toString()
+            watchersCounter.count = repo.watchers.toString()
+        }
+    }
+
+    private fun setReadme(readmeState: RepositoryInfoViewModel.ReadmeState) {
+        binding.readmeView.text = if (readmeState is RepositoryInfoViewModel.ReadmeState.Loaded) "${readmeState.markdown}${readmeState.markdown}${readmeState.markdown}" else ""
+    }
+
 
 }
