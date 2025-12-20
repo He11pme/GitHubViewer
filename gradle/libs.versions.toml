@@ -22,6 +22,7 @@ coreSplashscreen = "1.2.0"
 recyclerview = "1.4.0"
 swiperefreshlayout = "1.2.0"
 recyclerview-animators = "4.0.2"
+core = "4.6.2"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -46,6 +47,7 @@ androidx-core-splashscreen = { group = "androidx.core", name = "core-splashscree
 androidx-recyclerview = { group = "androidx.recyclerview", name = "recyclerview", version.ref = "recyclerview" }
 androidx-swiperefreshlayout = { group = "androidx.swiperefreshlayout", name = "swiperefreshlayout", version.ref = "swiperefreshlayout" }
 recyclerview-animators = { group = "jp.wasabeef", name = "recyclerview-animators", version.ref = "recyclerview-animators"}
+core = { group = "io.noties.markwon", name = "core", version.ref = "core" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

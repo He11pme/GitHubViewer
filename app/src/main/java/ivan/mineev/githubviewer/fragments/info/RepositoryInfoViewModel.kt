@@ -127,6 +127,17 @@ class RepositoryInfoViewModel @Inject constructor(
         sessionManager.logout()
     }
 
+    fun onLinkPressed() {
+        openLink()
+    }
+
+    private fun openLink() {
+        viewModelScope.launch {
+            _actions.emit(Action.OpenLink(repository.url))
+        }
+    }
+
+
     sealed interface State {
         object Loading : State
         data class Error(val error: Int) : State
@@ -145,6 +156,7 @@ class RepositoryInfoViewModel @Inject constructor(
 
     sealed interface Action {
         data class ForceLogout(val message: Int) : Action
+        data class OpenLink(val link: String): Action
     }
 
     companion object {

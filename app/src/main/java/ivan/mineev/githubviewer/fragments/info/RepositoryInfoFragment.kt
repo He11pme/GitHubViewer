@@ -1,5 +1,7 @@
 package ivan.mineev.githubviewer.fragments.info
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import com.airbnb.lottie.LottieDrawable
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import io.noties.markwon.Markwon
 import ivan.mineev.githubviewer.R
 import ivan.mineev.githubviewer.databinding.FragmentDetailInfoBinding
 import ivan.mineev.githubviewer.model.RepoDetails
@@ -20,6 +23,8 @@ class RepositoryInfoFragment : Fragment() {
 
     private lateinit var binding: FragmentDetailInfoBinding
     private val viewModel: RepositoryInfoViewModel by viewModels()
+
+    private val markwon by lazy { Markwon.create(requireContext()) }
 
     var repoNameProvided: String = ""
 
@@ -33,6 +38,7 @@ class RepositoryInfoFragment : Fragment() {
         getArgs()
         bindToViewModel()
         initLoadRepo(repoNameProvided)
+        setupViews()
 
         return binding.root
     }
@@ -54,6 +60,14 @@ class RepositoryInfoFragment : Fragment() {
         viewModel.state.observe(viewLifecycleOwner, ::handleState)
     }
 
+    private fun setupViews() {
+        setupLinkView()
+    }
+
+    private fun setupLinkView() {
+        binding.linkView.setOnClickListener { viewModel.onLinkPressed() }
+    }
+
     private fun bindAction() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.actions.collect(::handleAction)
@@ -70,6 +84,7 @@ class RepositoryInfoFragment : Fragment() {
     private fun handleAction(action: RepositoryInfoViewModel.Action) {
         when (action) {
             is RepositoryInfoViewModel.Action.ForceLogout -> showError(action.message)
+            is RepositoryInfoViewModel.Action.OpenLink -> openLink(action.link)
         }
     }
 
@@ -98,7 +113,8 @@ class RepositoryInfoFragment : Fragment() {
     }
 
     private fun setReadme(readmeState: RepositoryInfoViewModel.ReadmeState) {
-        binding.readmeView.text = if (readmeState is RepositoryInfoViewModel.ReadmeState.Loaded) readmeState.markdown else ""
+        if (readmeState is RepositoryInfoViewModel.ReadmeState.Loaded)
+            markwon.setMarkdown(binding.readmeView, readmeState.markdown)
     }
 
     private fun renderDescriptionAnimation(state: RepositoryInfoViewModel.State) {
@@ -133,12 +149,20 @@ class RepositoryInfoFragment : Fragment() {
             binding.animationViewRepos.playAnimation()
         }
         if (state is RepositoryInfoViewModel.State.Loaded) {
-            if (state.readmeState is RepositoryInfoViewModel.ReadmeState.Empty) {
-                setupEmptyListAnimation()
-                binding.animationViewRepos.playAnimation()
-            } else {
-                binding.animationViewRepos.cancelAnimation()
-                binding.animationViewRepos.visibility = View.GONE
+            when (state.readmeState) {
+                RepositoryInfoViewModel.ReadmeState.Empty -> {
+                    setupEmptyListAnimation()
+                    binding.animationViewRepos.playAnimation()
+                }
+                is RepositoryInfoViewModel.ReadmeState.Error -> {
+                    setupErrorAnimation()
+                    binding.animationViewRepos.playAnimation()
+                }
+                is RepositoryInfoViewModel.ReadmeState.Loaded -> {
+                    binding.animationViewRepos.cancelAnimation()
+                    binding.animationViewRepos.visibility = View.GONE
+                }
+                else -> {}
             }
         }
         if (state is RepositoryInfoViewModel.State.Error) {
@@ -175,6 +199,12 @@ class RepositoryInfoFragment : Fragment() {
 
     private fun setAnimation(animationId: Int) {
         binding.animationViewRepos.setAnimation(animationId)
+    }
+
+    private fun openLink(link: String) {
+        val intent = Intent(Intent.ACTION_VIEW)
+        intent.data = Uri.parse(link)
+        startActivity(intent)
     }
 
     private fun showError(resId: Int) {
