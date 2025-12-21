@@ -24,6 +24,7 @@
     <string name="repository_not_found">Repository not found</string>
     <string name="readme_not_found">README not found</string>
     <string name="load_readme">LOADING README</string>
+    <string name="token_not_inserted_incorrect_format">Token not inserted: incorrect format</string>
 
 
 </resources>

@@ -31,6 +31,8 @@
             android:id="@+id/tokenInputLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:endIconDrawable="@drawable/ic_past"
+            app:endIconMode="custom"
             app:layout_constraintBottom_toTopOf="@+id/signInButtonContainer"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -68,7 +70,6 @@
                 android:id="@+id/signInButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:onClickListener="@{() -> viewModel.onSignButtonPressed()}"
                 android:text="@string/sign_in" />
         </FrameLayout>

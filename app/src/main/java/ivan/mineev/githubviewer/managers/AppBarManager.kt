@@ -1,4 +1,4 @@
-package ivan.mineev.githubviewer.utils
+package ivan.mineev.githubviewer.managers
 
 import dagger.hilt.android.scopes.ActivityRetainedScoped
 import kotlinx.coroutines.flow.Flow
@@ -16,7 +16,7 @@ class AppBarManager @Inject constructor() {
     }
 
     sealed interface AppBarAction {
-        data class SetTitle(val title: String): AppBarAction
+        data class SetTitle(val title: String) : AppBarAction
     }
 
 }

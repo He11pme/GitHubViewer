@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import ivan.mineev.githubviewer.R
+import ivan.mineev.githubviewer.managers.TokenManager
 import ivan.mineev.githubviewer.repository.AppRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -19,6 +20,10 @@ import javax.inject.Inject
 class AuthViewModel @Inject constructor(val appRepository: AppRepository) : ViewModel() {
 
     val token = MutableLiveData<String>()
+
+    val isToken: (String) -> Boolean = {
+        (it.startsWith(TokenManager.NEW_TOKEN_INCLUDE) || it.startsWith(TokenManager.OLD_TOKEN_INCLUDE))
+    }
 
     private val _state = MutableLiveData<State>()
     val state: LiveData<State> get() = _state
@@ -51,6 +56,10 @@ class AuthViewModel @Inject constructor(val appRepository: AppRepository) : View
                 onFailure { e -> handleError(e) }
             }
         }
+    }
+
+    fun pastToken(token: String) {
+        this.token.value = token
     }
 
     private suspend fun handleSuccess() {

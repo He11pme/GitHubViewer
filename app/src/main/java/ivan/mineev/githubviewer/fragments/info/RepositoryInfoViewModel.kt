@@ -7,10 +7,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import ivan.mineev.githubviewer.R
+import ivan.mineev.githubviewer.managers.AppBarManager
+import ivan.mineev.githubviewer.managers.SessionManager
 import ivan.mineev.githubviewer.model.RepoDetails
 import ivan.mineev.githubviewer.repository.AppRepository
-import ivan.mineev.githubviewer.utils.AppBarManager
-import ivan.mineev.githubviewer.utils.SessionManager
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
@@ -164,7 +164,7 @@ class RepositoryInfoViewModel @Inject constructor(
 
     sealed interface Action {
         data class ForceLogout(val message: Int) : Action
-        data class OpenLink(val link: String): Action
+        data class OpenLink(val link: String) : Action
     }
 
     companion object {

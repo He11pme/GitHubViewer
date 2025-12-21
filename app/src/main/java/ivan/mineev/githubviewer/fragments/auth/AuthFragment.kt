@@ -1,6 +1,7 @@
 package ivan.mineev.githubviewer.fragments.auth
 
 import android.animation.Animator
+import android.content.ClipboardManager
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,14 +9,17 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import com.airbnb.lottie.LottieDrawable
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.textfield.TextInputLayout
 import dagger.hilt.android.AndroidEntryPoint
 import ivan.mineev.githubviewer.R
 import ivan.mineev.githubviewer.databinding.FragmentAuthBinding
@@ -27,6 +31,11 @@ class AuthFragment : Fragment() {
 
     private lateinit var binding: FragmentAuthBinding
     private val viewModel: AuthViewModel by viewModels()
+
+    private val cpbManager by lazy {
+        requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -69,6 +78,60 @@ class AuthFragment : Fragment() {
         binding.tokenInputEditText.setOnEditorActionListener { _, actionId, _ ->
             handleEditorAction(actionId)
         }
+
+        setupEndIconTokenInput()
+
+    }
+
+    private fun setupEndIconTokenInput() {
+
+        fun insertToken(token: String) {
+            viewModel.pastToken(token)
+            binding.tokenInputEditText.setText(token)
+        }
+
+        fun tryInsertText() {
+            cpbManager.primaryClip?.getItemAt(0)?.text.toString().let { text ->
+                if (viewModel.isToken(text)) {
+                    insertToken(text)
+                } else {
+                    showError(R.string.token_not_inserted_incorrect_format)
+                }
+            }
+        }
+
+        fun setInsertIcon() {
+            binding.tokenInputLayout.apply {
+                endIconMode = TextInputLayout.END_ICON_CUSTOM
+                endIconDrawable = ContextCompat.getDrawable(context, R.drawable.ic_past)
+
+                setEndIconOnClickListener { tryInsertText() }
+            }
+        }
+
+        fun isSetCancelIcon(): Boolean =
+            binding.tokenInputLayout.endIconMode != TextInputLayout.END_ICON_CLEAR_TEXT
+
+        fun setCancelIcon() {
+            binding.tokenInputLayout.apply {
+                endIconMode = TextInputLayout.END_ICON_CLEAR_TEXT
+                endIconDrawable = ContextCompat.getDrawable(context, R.drawable.ic_cancel)
+            }
+        }
+
+        fun updateIcon(text: CharSequence?) {
+            if (text.isNullOrEmpty()) setInsertIcon()
+            else if (isSetCancelIcon()) setCancelIcon()
+        }
+
+        binding.tokenInputLayout.addOnEditTextAttachedListener { layout ->
+            val editText = layout.editText ?: return@addOnEditTextAttachedListener
+
+            updateIcon(editText.text)
+
+            editText.doAfterTextChanged { updateIcon(it) }
+        }
+
     }
 
     private fun handleEditorAction(actionId: Int): Boolean =
@@ -174,7 +237,8 @@ class AuthFragment : Fragment() {
     }
 
     private fun hideKeyboard() {
-        val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        val imm =
+            requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(binding.root.windowToken, 0)
     }
 

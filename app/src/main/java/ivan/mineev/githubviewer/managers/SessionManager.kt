@@ -1,4 +1,4 @@
-package ivan.mineev.githubviewer.utils
+package ivan.mineev.githubviewer.managers
 
 import ivan.mineev.githubviewer.repository.AppRepository
 import kotlinx.coroutines.flow.Flow

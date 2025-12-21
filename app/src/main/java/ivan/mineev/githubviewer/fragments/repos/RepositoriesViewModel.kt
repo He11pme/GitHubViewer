@@ -7,9 +7,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import ivan.mineev.githubviewer.R
+import ivan.mineev.githubviewer.managers.SessionManager
 import ivan.mineev.githubviewer.model.Repo
 import ivan.mineev.githubviewer.repository.AppRepository
-import ivan.mineev.githubviewer.utils.SessionManager
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
@@ -89,7 +89,7 @@ class RepositoriesViewModel @Inject constructor(
 
     sealed interface State {
 
-        object Reloading: State
+        object Reloading : State
         object Loading : State
         data class Loaded(val repos: List<Repo>) : State
         data class Error(val error: Int) : State

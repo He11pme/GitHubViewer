@@ -1,6 +1,7 @@
 package ivan.mineev.githubviewer.repository
 
 import dagger.hilt.android.scopes.ActivityRetainedScoped
+import ivan.mineev.githubviewer.managers.TokenManager
 import ivan.mineev.githubviewer.model.Repo
 import ivan.mineev.githubviewer.model.RepoDetails
 import ivan.mineev.githubviewer.model.UserInfo
@@ -34,7 +35,7 @@ class AppRepository @Inject constructor(
     }
 
     private suspend fun getUser(token: String): UserInfo {
-        return GitHubApi.unauthorized.getUser(fullToken(token))
+        return GitHubApi.unauthorized.getUser(TokenManager.fullToken(token))
     }
 
     private fun saveUser(userInfo: UserInfo) {
@@ -46,7 +47,7 @@ class AppRepository @Inject constructor(
     }
 
     private fun createAuthApi(token: String) {
-        GitHubApi.createAuthorizedService(fullToken(token))
+        GitHubApi.createAuthorizedService(TokenManager.fullToken(token))
     }
 
     suspend fun loadRepositories(): Result<Unit> {
@@ -93,18 +94,20 @@ class AppRepository @Inject constructor(
     }
 
     companion object {
-        private const val NEW_TOKEN_PREFIX = "Bearer"
-        private const val OLD_TOKEN_PREFIX = "token"
-        private const val NEW_TOKEN_INCLUDE = "github_pat"
-
-        private val fullToken: (String) -> String = { token ->
-            // new format token: Bearer $token
-            // old format token: token $token
-            val prefix =
-                if (token.contains(NEW_TOKEN_INCLUDE)) NEW_TOKEN_PREFIX else OLD_TOKEN_PREFIX
-
-            "$prefix $token"
-        }
+//        private const val NEW_TOKEN_PREFIX = "Bearer"
+//        private const val OLD_TOKEN_PREFIX = "token"
+//        const val NEW_TOKEN_INCLUDE = "github_pat"
+//
+//        const val OLD_TOKEN_INCLUDE = "ghp"
+//
+//        private val fullToken: (String) -> String = { token ->
+//            // new format token: Bearer $token
+//            // old format token: token $token
+//            val prefix =
+//                if (token.contains(NEW_TOKEN_INCLUDE)) NEW_TOKEN_PREFIX else OLD_TOKEN_PREFIX
+//
+//            "$prefix $token"
+//        }
     }
 
 

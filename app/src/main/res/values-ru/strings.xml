@@ -17,6 +17,10 @@
     <string name="unexpected_error">Непредвиденная ошибка</string>
     <string name="empty_token">Токен не может быть пустым</string>
     <string name="empty_list">Список пуст</string>
+    <string name="repository_not_found">Репозиторий не найден</string>
+    <string name="readme_not_found">README не найден</string>
+    <string name="load_readme">ЗАГРУЗКА README</string>
+    <string name="token_not_inserted_incorrect_format">Токен не вставлен: невереный формат</string>
 
 
 </resources>
