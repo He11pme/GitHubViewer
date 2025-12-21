@@ -9,4 +9,8 @@
     <color name="transparent">#00000000</color>
     <color name="divider">#999999</color>
 
+    <color name="background_github_mark_logo">#fff</color>
+    <color name="background_github_mark_logo_splash">#FCF5FD</color>
+    <color name="github_mark_logo">#24292f</color>
+
 </resources>

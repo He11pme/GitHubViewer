@@ -21,7 +21,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:contentDescription="@string/github_logo"
-            android:src="@drawable/github_mark"
+            android:src="@drawable/github_mark_logo"
             app:layout_constraintBottom_toTopOf="@+id/tokenInputLayout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

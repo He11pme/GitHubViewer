@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="background_github_mark_logo_splash">#141218</color>
+    <color name="background_github_mark_logo">#24292f</color>
+    <color name="github_mark_logo">#FFF</color>
+
+</resources>
