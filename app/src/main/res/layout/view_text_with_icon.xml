@@ -8,18 +8,19 @@
     tools:parentTag="android.widget.LinearLayout">
 
     <ImageView
+        style="@style/Widget.GitHubViewer.ImageView"
+        android:contentDescription="@string/icon"
         android:id="@+id/icon"
         android:layout_width="20dp"
         android:layout_height="20dp"
-        android:scaleType="fitCenter"
         tools:srcCompat="@drawable/ic_logout" />
 
     <TextView
+        style="@style/Widget.GitHubViewer.TextView.Medium"
         android:id="@+id/label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
-        android:textSize="14sp"
         tools:text="Watchers" />
 
 </merge>

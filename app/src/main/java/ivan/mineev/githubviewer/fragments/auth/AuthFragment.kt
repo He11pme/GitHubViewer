@@ -65,7 +65,8 @@ class AuthFragment : Fragment() {
     private fun setInsetsSignInButton() {
         ViewCompat.setOnApplyWindowInsetsListener(binding.signInButtonContainer) { v, insets ->
             val imeInsets = insets.getInsets(WindowInsetsCompat.Type.ime())
-            v.setPadding(0, 0, 0, imeInsets.bottom)
+            val navBarsInsets = insets.getInsets(WindowInsetsCompat.Type.navigationBars())
+            v.setPadding(0, 0, 0, imeInsets.bottom - navBarsInsets.bottom)
             insets
         }
     }

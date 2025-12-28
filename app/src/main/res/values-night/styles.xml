@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Widget.GitHubViewer.TextInputLayout" parent="Base.Widget.GitHubViewer.TextInputLayout">
+
+        <item name="materialThemeOverlay">@style/ThemeOverlay.GitHubViewer.TextInputLayout</item>
+        <item name="boxBackgroundColor">@color/foreground</item>
+
+    </style>
+
+</resources>

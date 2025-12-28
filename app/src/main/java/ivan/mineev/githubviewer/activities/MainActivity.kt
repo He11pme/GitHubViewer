@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
@@ -31,7 +32,6 @@ class MainActivity : AppCompatActivity() {
         setSplashScreen()
 
         super.onCreate(savedInstanceState)
-
         binding = ActivityMainBinding.inflate(layoutInflater)
 
         enableEdgeToEdge()
@@ -51,9 +51,9 @@ class MainActivity : AppCompatActivity() {
     private fun setupAppBar() {
         val appBarConfig =
             AppBarConfiguration(setOf(R.id.authFragment, R.id.repositoriesListFragment))
-        binding.appBar.setupWithNavController(navHostFragment.navController, appBarConfig)
+        binding.toolbar.setupWithNavController(navHostFragment.navController, appBarConfig)
 
-        binding.appBar.setOnMenuItemClickListener { menuItem ->
+        binding.toolbar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.logout -> {
                     viewModel.onLogoutPressed()
@@ -92,11 +92,24 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setInsets() {
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
+        fun setMainInsets() {
+            ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+                val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+                v.setPadding(systemBars.left, 0, systemBars.right, systemBars.bottom)
+                insets
+            }
         }
+
+        fun setAppBarInsets() {
+            ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.appBar)) { v, insets ->
+                val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+                v.updatePadding(top = systemBars.top)
+                insets
+            }
+        }
+
+        setMainInsets()
+        setAppBarInsets()
     }
 
     private fun bindAction() {
@@ -126,7 +139,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setTitleAppBar(action: MainActivityViewModel.Action.SetTitleAppBar) {
-        binding.appBar.title = action.title
+        binding.toolbar.title = action.title
     }
 
     private fun navigateToAuth() {

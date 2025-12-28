@@ -7,18 +7,16 @@
     tools:context=".fragments.info.RepositoryInfoFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        style="@style/Widget.GitHubViewer.Card"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="10dp">
+        android:layout_height="wrap_content">
 
         <ivan.mineev.githubviewer.view.compound.TextWithIconView
+            style="@style/Widget.GitHubViewer.Link"
             android:id="@+id/linkView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
-            app:icon="@drawable/ic_link"
-            app:iconColor="#57A5FD"
-            app:labelColor="#57A5FD"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -26,18 +24,18 @@
 
 
         <ivan.mineev.githubviewer.view.compound.TextWithIconView
+            style="@style/Widget.GitHubViewer.TitleLicence"
             android:id="@+id/titleLicenceView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
-            app:icon="@drawable/ic_license"
-            app:labelText="@string/license"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/linkView" />
 
         <TextView
             android:id="@+id/licenceTV"
+            style="@style/Widget.GitHubViewer.TextView.Medium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -48,50 +46,48 @@
 
         <ivan.mineev.githubviewer.view.compound.CounterView
             android:id="@+id/starsCounter"
+            style="@style/Widget.GitHubViewer.StarsCounter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
-            app:icon="@drawable/ic_star"
-            app:iconColor="#FCD54B"
-            app:labelText="@string/stars"
             app:layout_constraintEnd_toStartOf="@+id/forksCounter"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/titleLicenceView"
-            app:valueColor="#FCD54B"
             tools:valueText="555" />
 
         <ivan.mineev.githubviewer.view.compound.CounterView
             android:id="@+id/forksCounter"
+            style="@style/Widget.GitHubViewer.ForksCounter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:icon="@drawable/ic_git_forks"
-            app:iconColor="#3FD462"
-            app:labelText="@string/forks"
             app:layout_constraintEnd_toStartOf="@+id/watchersCounter"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/starsCounter"
             app:layout_constraintTop_toTopOf="@+id/starsCounter"
-            app:valueColor="#3FD462"
             tools:valueText="555" />
 
         <ivan.mineev.githubviewer.view.compound.CounterView
             android:id="@+id/watchersCounter"
+            style="@style/Widget.GitHubViewer.WatchersCounter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:icon="@drawable/ic_watchers"
-            app:iconColor="#2E8FFD"
-            app:labelText="@string/watchers"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/forksCounter"
             app:layout_constraintTop_toTopOf="@+id/starsCounter"
-            app:valueColor="#2E8FFD"
             tools:valueText="555" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/groupDataRepo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="linkView, titleLicenceView, licenceTV, starsCounter, forksCounter, watchersCounter" />
 
         <TextView
             android:id="@+id/readmeView"
+            style="@style/Widget.GitHubViewer.TextView.Medium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -107,25 +103,16 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/readmeView" />
+            app:layout_constraintTop_toTopOf="@+id/readmeView" />
 
         <TextView
             android:id="@+id/descriptionAnimation"
+            style="@style/Widget.GitHubViewer.DescriptionAnimation"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="100dp"
-            android:layout_marginEnd="100dp"
-            android:gravity="center"
-            android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/animationViewRepos" />
-
-        <androidx.constraintlayout.widget.Group
-            android:id="@+id/groupDataRepo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:constraint_referenced_ids="linkView, titleLicenceView, licenceTV, starsCounter, forksCounter, watchersCounter" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -22,7 +22,7 @@ class CounterView @JvmOverloads constructor(
     private val defaultValueSizeSp = 14f
 
     private val defaultValueColor by lazy {
-        ContextCompat.getColor(context, R.color.black)
+        ContextCompat.getColor(context, R.color.text)
     }
 
     // DYNAMIC ATTRIBUTES

@@ -1,8 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="background_github_mark_logo_splash">#141218</color>
-    <color name="background_github_mark_logo">#24292f</color>
-    <color name="github_mark_logo">#FFF</color>
+    <color name="background">@color/black_900</color>
+    <color name="foreground">@color/neutral_850</color>
+    <color name="on_foreground">@color/neutral_800</color>
+
+    <color name="icon_app_bar">@color/blue_300</color>
+
+    <color name="hint_text_input_layout">@color/gray_350</color>
+    <color name="icon_text_input_layout">@color/gray_350</color>
+    <color name="stroke_text_input_layout">@color/gray_350</color>
+
+    <color name="background_button">@color/foreground</color>
+    <color name="stroke_button">@color/gray_650</color>
+    <color name="text_button">@color/blue_300</color>
+
+    <color name="text">@color/purple_gray_100</color>
+
+    <color name="background_github_mark_logo">@color/gray_800</color>
+    <color name="background_github_mark_logo_splash">@color/neutral_900_variant</color>
+    <color name="github_mark_logo">@color/white</color>
 
 </resources>

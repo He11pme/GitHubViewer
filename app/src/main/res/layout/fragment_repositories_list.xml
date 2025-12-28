@@ -28,12 +28,9 @@
 
         <TextView
             android:id="@+id/descriptionAnimation"
+            style="@style/Widget.GitHubViewer.DescriptionAnimation"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="100dp"
-            android:layout_marginEnd="100dp"
-            android:gravity="center"
-            android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/animationViewRepos" />

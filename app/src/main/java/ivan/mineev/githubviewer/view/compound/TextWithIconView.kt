@@ -31,10 +31,10 @@ open class TextWithIconView @JvmOverloads constructor(
 
     private val defaultLabelSizeSp = 14f
     private val defaultIconColor by lazy {
-        ContextCompat.getColor(context, R.color.black)
+        ContextCompat.getColor(context, R.color.text)
     }
     private val defaultLabelColor by lazy {
-        ContextCompat.getColor(context, R.color.black)
+        ContextCompat.getColor(context, R.color.text)
     }
 
     // DYNAMIC ATTRIBUTES
