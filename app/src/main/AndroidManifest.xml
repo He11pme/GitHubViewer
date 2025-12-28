@@ -14,6 +14,7 @@
         android:theme="@style/Base.Theme.GitHubViewer">
         <activity
             android:name=".activities.MainActivity"
+            android:screenOrientation="portrait"
             android:exported="true"
             android:theme="@style/Theme.GitHubViewer.Splash">
             <intent-filter>
