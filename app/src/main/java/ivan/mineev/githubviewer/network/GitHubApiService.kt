@@ -60,7 +60,8 @@ object GitHubApi {
     }
 
     private var _authorized: GitHubApiService? = null
-    val authorized get() = _authorized ?: throw Exception("retrofit service not create")
+    val authorized
+        get() = _authorized ?: throw RuntimeException("Authorized retrofit service not created")
 
     fun createAuthorizedService(token: String) {
         val client = createClient(token)

@@ -24,7 +24,7 @@ class LanguageColorRepository @Inject constructor() {
         try {
             return hex.toColorInt()
         } catch (e: IllegalArgumentException) {
-            logError("Невалидный HEX: ${e.message}")
+            logError("Unvalid HEX: ${e.message}")
             return OTHER_LANGUAGE_COLOR.toColorInt()
         }
 
@@ -37,9 +37,9 @@ class LanguageColorRepository @Inject constructor() {
         } catch (e: Exception) {
 
             when (e) {
-                is IOException -> logError("message: ${e.message}")
-                is SerializationException -> logError("message: ${e.message}")
-                else -> logError("Непредвиденная ошибка: ${e.message}")
+                is IOException -> logError("IOException: message: ${e.message}")
+                is SerializationException -> logError("SerializationException: message: ${e.message}")
+                else -> logError("Unexpected error: ${e.message}")
             }
             return emptyMap()
         }

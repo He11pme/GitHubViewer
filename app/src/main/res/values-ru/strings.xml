@@ -9,6 +9,7 @@
 
     <!--    ERROR    -->
 
+    <string name="not_found">отсутствует</string>
     <string name="forbidden_error">Превышен лимит запросов или недостаточно прав доступа</string>
     <string name="unauthorized_error">Истёк срок действия токена доступа</string>
     <string name="unauthorized_error_login">Недействительный токен доступа</string>

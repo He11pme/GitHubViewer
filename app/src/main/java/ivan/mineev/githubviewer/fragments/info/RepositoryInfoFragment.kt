@@ -1,11 +1,11 @@
 package ivan.mineev.githubviewer.fragments.info
 
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -46,7 +46,8 @@ class RepositoryInfoFragment : Fragment() {
 
     private fun getArgs() {
         repoNameProvided =
-            arguments?.getString("nameRepo") ?: throw Exception("Not bundle id repository")
+            arguments?.getString("nameRepo")
+                ?: throw RuntimeException("Repository name not provided")
     }
 
     private fun setTitleAppBar(repoName: String) {
@@ -104,7 +105,7 @@ class RepositoryInfoFragment : Fragment() {
     private fun setDataAboutRepo(repo: RepoDetails) {
         binding.apply {
             linkView.label = repo.url
-            licenceTV.text = repo.license?.name ?: "not found"
+            licenceTV.text = repo.license?.name ?: getString(R.string.not_found)
             starsCounter.count = repo.stars.toString()
             forksCounter.count = repo.forks.toString()
             watchersCounter.count = repo.watchers.toString()
@@ -124,25 +125,27 @@ class RepositoryInfoFragment : Fragment() {
 
     private fun renderDescriptionAnimation(state: RepositoryInfoViewModel.State) {
         binding.descriptionAnimation.apply {
-            visibility = when(state) {
+            visibility = when (state) {
                 is RepositoryInfoViewModel.State.Loaded -> {
-                    when(state.readmeState) {
+                    when (state.readmeState) {
                         is RepositoryInfoViewModel.ReadmeState.Loaded -> View.GONE
                         else -> View.VISIBLE
                     }
                 }
+
                 else -> View.VISIBLE
             }
-            text = when(state) {
+            text = when (state) {
                 is RepositoryInfoViewModel.State.Error -> getString(state.error)
                 is RepositoryInfoViewModel.State.Loaded -> {
-                    when(state.readmeState) {
+                    when (state.readmeState) {
                         RepositoryInfoViewModel.ReadmeState.Empty -> getString(R.string.readme_not_found)
                         is RepositoryInfoViewModel.ReadmeState.Error -> getString(state.readmeState.error)
                         RepositoryInfoViewModel.ReadmeState.Loading -> getString(R.string.load_readme)
                         else -> ""
                     }
                 }
+
                 RepositoryInfoViewModel.State.Loading -> getString(R.string.loading)
             }
         }
@@ -159,14 +162,17 @@ class RepositoryInfoFragment : Fragment() {
                     setupEmptyListAnimation()
                     binding.animationViewRepos.playAnimation()
                 }
+
                 is RepositoryInfoViewModel.ReadmeState.Error -> {
                     setupErrorAnimation()
                     binding.animationViewRepos.playAnimation()
                 }
+
                 is RepositoryInfoViewModel.ReadmeState.Loaded -> {
                     binding.animationViewRepos.cancelAnimation()
                     binding.animationViewRepos.visibility = View.GONE
                 }
+
                 else -> {}
             }
         }
@@ -208,7 +214,7 @@ class RepositoryInfoFragment : Fragment() {
 
     private fun openLink(link: String) {
         val intent = Intent(Intent.ACTION_VIEW)
-        intent.data = Uri.parse(link)
+        intent.data = link.toUri()
         startActivity(intent)
     }
 
@@ -219,6 +225,5 @@ class RepositoryInfoFragment : Fragment() {
     private fun showSnackbar(message: String) {
         Snackbar.make(binding.root, message, Snackbar.LENGTH_SHORT).show()
     }
-
 
 }

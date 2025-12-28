@@ -11,6 +11,7 @@
     <string name="stars" translatable="false">stars</string>
     <string name="license">License</string>
     <string name="icon" translatable="false">ic</string>
+    <string name="not_found">not found</string>
 
     <!--    ERROR    -->
 

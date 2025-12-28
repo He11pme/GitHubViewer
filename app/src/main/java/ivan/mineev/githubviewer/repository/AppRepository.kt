@@ -15,10 +15,11 @@ class AppRepository @Inject constructor(
     private val colorRepository: LanguageColorRepository
 ) {
     private var _user: UserInfo? = null
-    val user: UserInfo get() = _user ?: throw Exception("User unauthorized")
+    val user: UserInfo get() = _user ?: throw RuntimeException("User unauthorized")
 
     private var _repositories: List<Repo>? = null
-    val repositories: List<Repo> get() = _repositories ?: throw Exception("Repositories unloaded")
+    val repositories: List<Repo>
+        get() = _repositories ?: throw RuntimeException("Repositories unloaded")
 
 
     suspend fun signIn(token: String? = null): Result<Unit> {
@@ -31,7 +32,7 @@ class AppRepository @Inject constructor(
             } catch (e: Exception) {
                 Result.failure(e)
             }
-        } ?: Result.failure(Exception("token unsaved"))
+        } ?: Result.failure(RuntimeException("token unsaved"))
     }
 
     private suspend fun getUser(token: String): UserInfo {
@@ -92,24 +93,6 @@ class AppRepository @Inject constructor(
         _user = null
         _repositories = null
     }
-
-    companion object {
-//        private const val NEW_TOKEN_PREFIX = "Bearer"
-//        private const val OLD_TOKEN_PREFIX = "token"
-//        const val NEW_TOKEN_INCLUDE = "github_pat"
-//
-//        const val OLD_TOKEN_INCLUDE = "ghp"
-//
-//        private val fullToken: (String) -> String = { token ->
-//            // new format token: Bearer $token
-//            // old format token: token $token
-//            val prefix =
-//                if (token.contains(NEW_TOKEN_INCLUDE)) NEW_TOKEN_PREFIX else OLD_TOKEN_PREFIX
-//
-//            "$prefix $token"
-//        }
-    }
-
 
 }
 
