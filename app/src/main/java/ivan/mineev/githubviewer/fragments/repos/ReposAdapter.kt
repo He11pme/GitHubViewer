@@ -8,7 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 import ivan.mineev.githubviewer.databinding.ItemRepoBinding
 import ivan.mineev.githubviewer.model.Repo
 
-class ReposAdapter(val openRepoDetails: (name: String) -> Unit) : ListAdapter<Repo, ReposAdapter.ViewHolder>(ReposDiffCallback()) {
+class ReposAdapter(val openRepoDetails: (name: String) -> Unit) :
+    ListAdapter<Repo, ReposAdapter.ViewHolder>(ReposDiffCallback()) {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,

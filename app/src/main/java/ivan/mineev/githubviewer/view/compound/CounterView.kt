@@ -29,7 +29,9 @@ class CounterView @JvmOverloads constructor(
 
     var count: String
         get() = valueView.text.toString()
-        set(value) { valueView.text = value }
+        set(value) {
+            valueView.text = value
+        }
 
     init {
         attributeSet?.let { applyCounterAttr(context, it) }

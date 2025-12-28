@@ -19,7 +19,7 @@ interface LinguistService {
 }
 
 object LinguistApi {
-    val linguistService : LinguistService by lazy {
+    val linguistService: LinguistService by lazy {
         retrofit.create(LinguistService::class.java)
     }
 }

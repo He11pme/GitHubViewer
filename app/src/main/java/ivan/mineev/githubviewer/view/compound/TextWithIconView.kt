@@ -18,7 +18,7 @@ open class TextWithIconView @JvmOverloads constructor(
     defStyleAttr: Int = 0,
     defStyleRes: Int = 0,
     @LayoutRes layout: Int = R.layout.view_text_with_icon
-) : LinearLayout(context, attributeSet, defStyleAttr) {
+) : LinearLayout(context, attributeSet, defStyleAttr, defStyleRes) {
 
     // VIEWS
     private val iconView: ImageView
@@ -41,7 +41,9 @@ open class TextWithIconView @JvmOverloads constructor(
 
     var label: String
         get() = labelView.text.toString()
-        set(value) {labelView.text = value}
+        set(value) {
+            labelView.text = value
+        }
 
     init {
         LayoutInflater.from(context).inflate(layout, this, true)
