@@ -34,7 +34,7 @@ class RepositoriesListFragment : Fragment() {
 
         setupViews()
         bindToViewModel()
-        initLoadRepositories()
+        if (adapter.currentList.isEmpty()) initLoadRepositories()
 
         return binding.root
     }
