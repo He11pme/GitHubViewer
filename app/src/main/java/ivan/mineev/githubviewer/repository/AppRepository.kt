@@ -97,6 +97,11 @@ class AppRepository @Inject constructor(
 }
 
 private suspend fun List<Repo>.setColor(colorRepository: LanguageColorRepository): List<Repo> {
-    forEach { it.color = colorRepository.getColorFor(it.language) }
+    forEach {
+        it.language?.let {language ->
+            it.color = colorRepository.getColorFor(language)
+        }
+
+    }
     return this
 }
