@@ -7,9 +7,8 @@ import ivan.mineev.githubviewer.domain.model.RepoDetails
 @ActivityRetainedScoped
 interface AppRepository {
 
-    val repositories: List<Repo>
     suspend fun signIn(token: String? = null): Result<Unit>
-    suspend fun loadRepositories(): Result<Unit>
+    suspend fun loadRepositories(isUpdate: Boolean = false): Result<List<Repo>>
     suspend fun loadRepo(repo: String): Result<RepoDetails>
     suspend fun loadReadme(repo: String): Result<String>
     fun logout()

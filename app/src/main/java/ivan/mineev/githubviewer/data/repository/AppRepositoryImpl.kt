@@ -15,14 +15,11 @@ import javax.inject.Inject
 class AppRepositoryImpl @Inject constructor(
     val keyValueStorage: KeyValueStorage,
     private val colorRepository: LanguageColorRepository
-): AppRepository {
+) : AppRepository {
     private var _user: UserInfoDto? = null
     private val user: UserInfoDto get() = _user ?: throw RuntimeException("User unauthorized")
 
-    private var _repositories: List<Repo>? = null
-    override val repositories: List<Repo>
-        get() = _repositories ?: throw RuntimeException("Repositories unloaded")
-
+    private var repositories: List<Repo> = emptyList()
 
     override suspend fun signIn(token: String?): Result<Unit> {
         return (token ?: keyValueStorage.authToken)?.let {
@@ -53,13 +50,17 @@ class AppRepositoryImpl @Inject constructor(
         GitHubApi.createAuthorizedService(TokenManager.fullToken(token))
     }
 
-    override suspend fun loadRepositories(): Result<Unit> {
+    override suspend fun loadRepositories(isUpdate: Boolean): Result<List<Repo>> {
+
+        if (!isUpdate && repositories.isNotEmpty()) return Result.success(repositories)
+
         return try {
-            _repositories = getRepositories()
-            Result.success(Unit)
+            repositories = getRepositories()
+            Result.success(repositories)
         } catch (e: Exception) {
             Result.failure(e)
         }
+
     }
 
     private suspend fun getRepositories(): List<Repo> {
@@ -95,7 +96,7 @@ class AppRepositoryImpl @Inject constructor(
     override fun logout() {
         keyValueStorage.deleteToken()
         _user = null
-        _repositories = null
+        repositories = emptyList()
     }
 
 }

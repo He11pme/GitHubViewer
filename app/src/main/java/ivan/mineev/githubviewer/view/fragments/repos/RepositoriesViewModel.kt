@@ -31,7 +31,7 @@ class RepositoriesViewModel @Inject constructor(
 
     fun reloadRepositories() {
         _state.value = State.Reloading
-        tryLoadRepositories()
+        tryLoadRepositories(true)
     }
 
     fun loadRepositories() {
@@ -39,18 +39,18 @@ class RepositoriesViewModel @Inject constructor(
         tryLoadRepositories()
     }
 
-    private fun tryLoadRepositories() {
+    private fun tryLoadRepositories(isUpdate: Boolean = false) {
         viewModelScope.launch {
-            appRepository.loadRepositories().apply {
-                onSuccess { handleSuccess() }
+            appRepository.loadRepositories(isUpdate).apply {
+                onSuccess { handleSuccess(it) }
                 onFailure { e -> handleError(e) }
             }
         }
     }
 
-    private fun handleSuccess() {
-        if (appRepository.repositories.isEmpty()) _state.value = State.Empty
-        else _state.value = State.Loaded(appRepository.repositories)
+    private fun handleSuccess(repositories: List<Repo>) {
+        if (repositories.isEmpty()) _state.value = State.Empty
+        else _state.value = State.Loaded(repositories)
     }
 
     private suspend fun handleError(e: Throwable) {
