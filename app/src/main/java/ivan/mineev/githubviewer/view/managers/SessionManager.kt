@@ -1,6 +1,6 @@
 package ivan.mineev.githubviewer.view.managers
 
-import ivan.mineev.githubviewer.data.repository.AppRepository
+import ivan.mineev.githubviewer.domain.repository.AppRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import javax.inject.Inject

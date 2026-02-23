@@ -7,8 +7,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import ivan.mineev.githubviewer.R
+import ivan.mineev.githubviewer.domain.repository.AppRepository
 import ivan.mineev.githubviewer.managers.TokenManager
-import ivan.mineev.githubviewer.data.repository.AppRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
