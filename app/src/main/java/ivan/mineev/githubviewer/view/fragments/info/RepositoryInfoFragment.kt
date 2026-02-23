@@ -15,7 +15,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import io.noties.markwon.Markwon
 import ivan.mineev.githubviewer.R
 import ivan.mineev.githubviewer.databinding.FragmentDetailInfoBinding
-import ivan.mineev.githubviewer.domain.model.RepoDetails
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -39,7 +38,6 @@ class RepositoryInfoFragment : Fragment() {
         setTitleAppBar(repoNameProvided)
         bindToViewModel()
         initLoadRepo(repoNameProvided)
-        setupViews()
 
         return binding.root
     }
@@ -55,6 +53,7 @@ class RepositoryInfoFragment : Fragment() {
     }
 
     private fun bindToViewModel() {
+        binding.viewModel = viewModel
         bindState()
         bindAction()
     }
@@ -64,14 +63,6 @@ class RepositoryInfoFragment : Fragment() {
 
     private fun bindState() {
         viewModel.state.observe(viewLifecycleOwner, ::handleState)
-    }
-
-    private fun setupViews() {
-        setupLinkView()
-    }
-
-    private fun setupLinkView() {
-        binding.linkView.setOnClickListener { viewModel.onLinkPressed() }
     }
 
     private fun bindAction() {
@@ -95,21 +86,9 @@ class RepositoryInfoFragment : Fragment() {
     }
 
     private fun renderDataAboutRepo(state: RepositoryInfoViewModel.State) {
-        if (state is RepositoryInfoViewModel.State.Loaded) {
-            setDataAboutRepo(state.gitHubRepo)
-        }
-        binding.groupDataRepo.visibility =
-            if (state is RepositoryInfoViewModel.State.Loaded) View.VISIBLE else View.GONE
-    }
+        binding.state = state
+        if (state is RepositoryInfoViewModel.State.Loaded) binding.repo = state.gitHubRepo
 
-    private fun setDataAboutRepo(repo: RepoDetails) {
-        binding.apply {
-            linkView.label = repo.url
-            licenceTV.text = repo.license ?: getString(R.string.not_found)
-            starsCounter.count = repo.stars.toString()
-            forksCounter.count = repo.forks.toString()
-            watchersCounter.count = repo.watchers.toString()
-        }
     }
 
     private fun renderReadme(state: RepositoryInfoViewModel.State) {

@@ -94,26 +94,20 @@ class RepositoriesListFragment : Fragment() {
     }
 
     private fun renderDescriptionAnimation(state: RepositoriesViewModel.State) {
-        if (state is RepositoriesViewModel.State.Error) {
-            binding.descriptionAnimation.apply {
-                visibility = View.VISIBLE
-                text = getString(state.error)
+
+        binding.descriptionAnimation.apply {
+            visibility = if (
+                state is RepositoriesViewModel.State.Loaded ||
+                state is RepositoriesViewModel.State.Reloading
+            ) View.GONE else View.VISIBLE
+
+            text = when (state) {
+                RepositoriesViewModel.State.Empty -> getString(R.string.empty_list)
+                is RepositoriesViewModel.State.Error -> getString(state.error)
+                is RepositoriesViewModel.State.Loaded -> ""
+                RepositoriesViewModel.State.Loading -> getString(R.string.loading)
+                RepositoriesViewModel.State.Reloading -> ""
             }
-        }
-        if (state is RepositoriesViewModel.State.Loading) {
-            binding.descriptionAnimation.apply {
-                visibility = View.VISIBLE
-                text = getString(R.string.loading)
-            }
-        }
-        if (state is RepositoriesViewModel.State.Empty) {
-            binding.descriptionAnimation.apply {
-                visibility = View.VISIBLE
-                text = getString(R.string.empty_list)
-            }
-        }
-        if (state is RepositoriesViewModel.State.Loaded) {
-            binding.descriptionAnimation.visibility = View.GONE
         }
     }
 

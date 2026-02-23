@@ -1,120 +1,143 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".view.fragments.info.RepositoryInfoFragment">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        style="@style/Widget.GitHubViewer.Card"
+    <data>
+        <import type="android.view.View"/>
+        <variable
+            name="viewModel"
+            type="ivan.mineev.githubviewer.view.fragments.info.RepositoryInfoViewModel" />
+        <variable
+            name="state"
+            type="ivan.mineev.githubviewer.view.fragments.info.RepositoryInfoViewModel.State" />
+        <variable
+            name="repo"
+            type="ivan.mineev.githubviewer.domain.model.RepoDetails" />
+    </data>
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        tools:context=".view.fragments.info.RepositoryInfoFragment">
 
-        <ivan.mineev.githubviewer.view.compound.TextWithIconView
-            style="@style/Widget.GitHubViewer.Link"
-            android:id="@+id/linkView"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:labelText="https://github.com/icerockdev/moko-resources.git" />
-
-
-        <ivan.mineev.githubviewer.view.compound.TextWithIconView
-            style="@style/Widget.GitHubViewer.TitleLicence"
-            android:id="@+id/titleLicenceView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linkView" />
-
-        <TextView
-            android:id="@+id/licenceTV"
-            style="@style/Widget.GitHubViewer.TextView.Medium"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linkView"
-            tools:text="Apache 2.0" />
-
-        <ivan.mineev.githubviewer.view.compound.CounterView
-            android:id="@+id/starsCounter"
-            style="@style/Widget.GitHubViewer.StarsCounter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            app:layout_constraintEnd_toStartOf="@+id/forksCounter"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/titleLicenceView"
-            tools:valueText="555" />
-
-        <ivan.mineev.githubviewer.view.compound.CounterView
-            android:id="@+id/forksCounter"
-            style="@style/Widget.GitHubViewer.ForksCounter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toStartOf="@+id/watchersCounter"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/starsCounter"
-            app:layout_constraintTop_toTopOf="@+id/starsCounter"
-            tools:valueText="555" />
-
-        <ivan.mineev.githubviewer.view.compound.CounterView
-            android:id="@+id/watchersCounter"
-            style="@style/Widget.GitHubViewer.WatchersCounter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/forksCounter"
-            app:layout_constraintTop_toTopOf="@+id/starsCounter"
-            tools:valueText="555" />
-
-        <androidx.constraintlayout.widget.Group
-            android:id="@+id/groupDataRepo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:constraint_referenced_ids="linkView, titleLicenceView, licenceTV, starsCounter, forksCounter, watchersCounter" />
-
-        <TextView
-            android:id="@+id/readmeView"
-            style="@style/Widget.GitHubViewer.TextView.Medium"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            style="@style/Widget.GitHubViewer.Card"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/forksCounter"
-            tools:text="README" />
+            android:layout_height="wrap_content">
 
-        <com.airbnb.lottie.LottieAnimationView
-            android:id="@+id/animationViewRepos"
-            android:layout_width="250dp"
-            android:layout_height="250dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/readmeView" />
-
-        <TextView
-            android:id="@+id/descriptionAnimation"
-            style="@style/Widget.GitHubViewer.DescriptionAnimation"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/animationViewRepos" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <ivan.mineev.githubviewer.view.compound.TextWithIconView
+                style="@style/Widget.GitHubViewer.Link"
+                android:id="@+id/linkView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:onClickListener="@{() -> viewModel.onLinkPressed()}"
+                app:labelText="@{repo.url}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:labelText="https://github.com/icerockdev/moko-resources.git" />
 
 
-</ScrollView>
+            <ivan.mineev.githubviewer.view.compound.TextWithIconView
+                style="@style/Widget.GitHubViewer.TitleLicence"
+                android:id="@+id/titleLicenceView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linkView" />
+
+            <TextView
+                android:id="@+id/licenceTV"
+                style="@style/Widget.GitHubViewer.TextView.Medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:text="@{repo.license != null ? repo.license : @string/not_found}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linkView"
+                tools:text="Apache 2.0" />
+
+            <ivan.mineev.githubviewer.view.compound.CounterView
+                android:id="@+id/starsCounter"
+                style="@style/Widget.GitHubViewer.StarsCounter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                app:valueText="@{String.valueOf(repo.stars)}"
+                app:layout_constraintEnd_toStartOf="@+id/forksCounter"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/titleLicenceView"
+                tools:valueText="555" />
+
+            <ivan.mineev.githubviewer.view.compound.CounterView
+                android:id="@+id/forksCounter"
+                style="@style/Widget.GitHubViewer.ForksCounter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:valueText="@{String.valueOf(repo.forks)}"
+                app:layout_constraintEnd_toStartOf="@+id/watchersCounter"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/starsCounter"
+                app:layout_constraintTop_toTopOf="@+id/starsCounter"
+                tools:valueText="555" />
+
+            <ivan.mineev.githubviewer.view.compound.CounterView
+                android:id="@+id/watchersCounter"
+                style="@style/Widget.GitHubViewer.WatchersCounter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:valueText="@{String.valueOf(repo.watchers)}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/forksCounter"
+                app:layout_constraintTop_toTopOf="@+id/starsCounter"
+                tools:valueText="555" />
+
+            <androidx.constraintlayout.widget.Group
+                android:id="@+id/groupDataRepo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="@{state instanceof ivan.mineev.githubviewer.view.fragments.info.RepositoryInfoViewModel.State.Loaded ? View.VISIBLE : View.INVISIBLE}"
+                app:constraint_referenced_ids="linkView, titleLicenceView, licenceTV, starsCounter, forksCounter, watchersCounter" />
+
+            <TextView
+                android:id="@+id/readmeView"
+                style="@style/Widget.GitHubViewer.TextView.Medium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/forksCounter"
+                tools:text="README" />
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/animationViewRepos"
+                android:layout_width="250dp"
+                android:layout_height="250dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/readmeView" />
+
+            <TextView
+                android:id="@+id/descriptionAnimation"
+                style="@style/Widget.GitHubViewer.DescriptionAnimation"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/animationViewRepos" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </ScrollView>
+</layout>

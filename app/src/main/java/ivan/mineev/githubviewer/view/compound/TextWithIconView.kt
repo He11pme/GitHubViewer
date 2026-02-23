@@ -12,6 +12,16 @@ import androidx.annotation.LayoutRes
 import androidx.core.content.ContextCompat
 import ivan.mineev.githubviewer.R
 
+/**
+ * Compound View для текста с иконкой.
+ *
+ * Реализация появилась до того, как я узнал о встроенной поддержке иконок в TextView.
+ *
+ * Осознанно не стал переделывать компонент, так как:
+ * - он уже используется в нескольких местах
+ * - соответствует принципу переиспользуемости UI-компонентов
+ *
+ */
 open class TextWithIconView @JvmOverloads constructor(
     context: Context,
     attributeSet: AttributeSet?,
@@ -39,7 +49,7 @@ open class TextWithIconView @JvmOverloads constructor(
 
     // DYNAMIC ATTRIBUTES
 
-    var label: String
+    var labelText: String?
         get() = labelView.text.toString()
         set(value) {
             labelView.text = value
@@ -90,7 +100,7 @@ open class TextWithIconView @JvmOverloads constructor(
 
     private fun renderLabel(typedArray: TypedArray) {
 
-        val labelText = typedArray.getString(R.styleable.TextWithIconView_labelText)
+        labelText = typedArray.getString(R.styleable.TextWithIconView_labelText) ?: ""
 
         val labelColor =
             typedArray.getColor(R.styleable.TextWithIconView_labelColor, defaultLabelColor)

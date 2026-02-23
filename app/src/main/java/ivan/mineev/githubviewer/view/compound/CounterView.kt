@@ -27,7 +27,7 @@ class CounterView @JvmOverloads constructor(
 
     // DYNAMIC ATTRIBUTES
 
-    var count: String
+    var valueText: String?
         get() = valueView.text.toString()
         set(value) {
             valueView.text = value
@@ -49,7 +49,7 @@ class CounterView @JvmOverloads constructor(
 
     private fun renderValue(typedArray: TypedArray) {
 
-        val valueText = typedArray.getString(R.styleable.CounterView_valueText)
+        valueText = typedArray.getString(R.styleable.CounterView_valueText) ?: "0"
 
         val valueColor =
             typedArray.getColor(R.styleable.CounterView_valueColor, defaultValueColor)
