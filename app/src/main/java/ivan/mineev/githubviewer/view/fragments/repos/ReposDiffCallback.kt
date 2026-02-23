@@ -1,7 +1,7 @@
 package ivan.mineev.githubviewer.view.fragments.repos
 
 import androidx.recyclerview.widget.DiffUtil
-import ivan.mineev.githubviewer.data.model.Repo
+import ivan.mineev.githubviewer.domain.model.Repo
 
 class ReposDiffCallback : DiffUtil.ItemCallback<Repo>() {
     override fun areItemsTheSame(

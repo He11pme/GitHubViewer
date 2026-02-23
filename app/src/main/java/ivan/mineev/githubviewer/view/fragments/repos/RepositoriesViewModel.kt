@@ -8,8 +8,8 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import ivan.mineev.githubviewer.R
 import ivan.mineev.githubviewer.view.managers.SessionManager
-import ivan.mineev.githubviewer.data.model.Repo
 import ivan.mineev.githubviewer.data.repository.AppRepository
+import ivan.mineev.githubviewer.domain.model.Repo
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch

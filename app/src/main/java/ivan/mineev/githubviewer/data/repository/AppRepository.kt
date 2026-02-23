@@ -1,12 +1,13 @@
 package ivan.mineev.githubviewer.data.repository
 
 import dagger.hilt.android.scopes.ActivityRetainedScoped
-import ivan.mineev.githubviewer.managers.TokenManager
-import ivan.mineev.githubviewer.data.model.Repo
-import ivan.mineev.githubviewer.data.model.RepoDetails
-import ivan.mineev.githubviewer.data.model.UserInfo
-import ivan.mineev.githubviewer.data.network.GitHubApi
 import ivan.mineev.githubviewer.data.local.storage.KeyValueStorage
+import ivan.mineev.githubviewer.data.mappers.toDomain
+import ivan.mineev.githubviewer.data.model.UserInfoDto
+import ivan.mineev.githubviewer.data.network.GitHubApi
+import ivan.mineev.githubviewer.domain.model.Repo
+import ivan.mineev.githubviewer.domain.model.RepoDetails
+import ivan.mineev.githubviewer.managers.TokenManager
 import javax.inject.Inject
 
 @ActivityRetainedScoped
@@ -14,8 +15,8 @@ class AppRepository @Inject constructor(
     val keyValueStorage: KeyValueStorage,
     private val colorRepository: LanguageColorRepository
 ) {
-    private var _user: UserInfo? = null
-    val user: UserInfo get() = _user ?: throw RuntimeException("User unauthorized")
+    private var _user: UserInfoDto? = null
+    private val user: UserInfoDto get() = _user ?: throw RuntimeException("User unauthorized")
 
     private var _repositories: List<Repo>? = null
     val repositories: List<Repo>
@@ -35,11 +36,11 @@ class AppRepository @Inject constructor(
         } ?: Result.failure(RuntimeException("token unsaved"))
     }
 
-    private suspend fun getUser(token: String): UserInfo {
+    private suspend fun getUser(token: String): UserInfoDto {
         return GitHubApi.unauthorized.getUser(TokenManager.fullToken(token))
     }
 
-    private fun saveUser(userInfo: UserInfo) {
+    private fun saveUser(userInfo: UserInfoDto) {
         _user = userInfo
     }
 
@@ -61,7 +62,9 @@ class AppRepository @Inject constructor(
     }
 
     private suspend fun getRepositories(): List<Repo> {
-        return GitHubApi.authorized.getRepositories().setColor(colorRepository)
+        return GitHubApi.authorized.getRepositories().map {
+            it.toDomain(colorRepository.getColorFor(it.language ?: ""))
+        }
     }
 
     suspend fun loadRepo(repo: String): Result<RepoDetails> {
@@ -73,7 +76,7 @@ class AppRepository @Inject constructor(
     }
 
     private suspend fun getRepo(repo: String): RepoDetails {
-        return GitHubApi.authorized.getRepository(user.login, repo)
+        return GitHubApi.authorized.getRepository(user.login, repo).toDomain()
     }
 
     suspend fun loadReadme(repo: String): Result<String> {
@@ -96,12 +99,12 @@ class AppRepository @Inject constructor(
 
 }
 
-private suspend fun List<Repo>.setColor(colorRepository: LanguageColorRepository): List<Repo> {
-    forEach {
-        it.language?.let {language ->
-            it.color = colorRepository.getColorFor(language)
-        }
-
-    }
-    return this
-}
+//private suspend fun List<RepoDto>.setColor(colorRepository: LanguageColorRepository): List<RepoDto> {
+//    forEach {
+//        it.language?.let {language ->
+//            it.color = colorRepository.getColorFor(language)
+//        }
+//
+//    }
+//    return this
+//}

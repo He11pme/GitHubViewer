@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import ivan.mineev.githubviewer.databinding.ItemRepoBinding
-import ivan.mineev.githubviewer.data.model.Repo
+import ivan.mineev.githubviewer.domain.model.Repo
 
 class ReposAdapter(val openRepoDetails: (name: String) -> Unit) :
     ListAdapter<Repo, ReposAdapter.ViewHolder>(ReposDiffCallback()) {

@@ -1,9 +1,9 @@
 package ivan.mineev.githubviewer.data.network
 
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
-import ivan.mineev.githubviewer.data.model.Repo
-import ivan.mineev.githubviewer.data.model.RepoDetails
-import ivan.mineev.githubviewer.data.model.UserInfo
+import ivan.mineev.githubviewer.data.model.RepoDto
+import ivan.mineev.githubviewer.data.model.RepoDetailsDto
+import ivan.mineev.githubviewer.data.model.UserInfoDto
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
@@ -31,19 +31,19 @@ interface GitHubApiService {
     @GET("user")
     suspend fun getUser(
         @Header("Authorization") token: String
-    ): UserInfo
+    ): UserInfoDto
 
     @GET("user/repos")
     suspend fun getRepositories(
         @Query("per_page") perPage: Int = 10,
         @Query("page") page: Int = 1
-    ): List<Repo>
+    ): List<RepoDto>
 
     @GET("repos/{owner}/{repo}")
     suspend fun getRepository(
         @Path("owner") owner: String,
         @Path("repo") repo: String
-    ): RepoDetails
+    ): RepoDetailsDto
 
     @GET("repos/{owner}/{repo}/readme")
     @Headers("Accept: application/vnd.github.raw")

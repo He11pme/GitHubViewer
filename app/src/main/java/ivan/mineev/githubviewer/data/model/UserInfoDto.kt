@@ -7,7 +7,7 @@ import kotlinx.serialization.json.JsonIgnoreUnknownKeys
 @OptIn(ExperimentalSerializationApi::class)
 @JsonIgnoreUnknownKeys
 @Serializable
-data class UserInfo(
+data class UserInfoDto(
     val name: String,
     val login: String
 )

@@ -9,8 +9,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import ivan.mineev.githubviewer.R
 import ivan.mineev.githubviewer.view.managers.AppBarManager
 import ivan.mineev.githubviewer.view.managers.SessionManager
-import ivan.mineev.githubviewer.data.model.RepoDetails
 import ivan.mineev.githubviewer.data.repository.AppRepository
+import ivan.mineev.githubviewer.domain.model.RepoDetails
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch

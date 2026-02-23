@@ -15,7 +15,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import io.noties.markwon.Markwon
 import ivan.mineev.githubviewer.R
 import ivan.mineev.githubviewer.databinding.FragmentDetailInfoBinding
-import ivan.mineev.githubviewer.data.model.RepoDetails
+import ivan.mineev.githubviewer.domain.model.RepoDetails
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -105,7 +105,7 @@ class RepositoryInfoFragment : Fragment() {
     private fun setDataAboutRepo(repo: RepoDetails) {
         binding.apply {
             linkView.label = repo.url
-            licenceTV.text = repo.license?.name ?: getString(R.string.not_found)
+            licenceTV.text = repo.license ?: getString(R.string.not_found)
             starsCounter.count = repo.stars.toString()
             forksCounter.count = repo.forks.toString()
             watchersCounter.count = repo.watchers.toString()

@@ -4,11 +4,11 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class RepoDetails(
+data class RepoDetailsDto(
     val name: String,
     @SerialName("html_url")
     val url: String,
-    val license: License?,
+    val license: LicenseDto?,
     @SerialName("watchers_count")
     val watchers: Int,
     @SerialName("forks_count")
@@ -18,6 +18,6 @@ data class RepoDetails(
 )
 
 @Serializable
-data class License(
+data class LicenseDto(
     val name: String
 )
