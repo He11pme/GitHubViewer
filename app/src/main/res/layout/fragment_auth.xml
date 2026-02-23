@@ -2,13 +2,13 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".fragments.auth.AuthFragment">
+    tools:context=".view.fragments.auth.AuthFragment">
 
     <data>
 
         <variable
             name="viewModel"
-            type="ivan.mineev.githubviewer.fragments.auth.AuthViewModel" />
+            type="ivan.mineev.githubviewer.view.fragments.auth.AuthViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

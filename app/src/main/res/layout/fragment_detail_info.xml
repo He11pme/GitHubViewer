@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.info.RepositoryInfoFragment">
+    tools:context=".view.fragments.info.RepositoryInfoFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         style="@style/Widget.GitHubViewer.Card"
