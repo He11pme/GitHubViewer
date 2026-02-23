@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Base.V31.Theme.GitHubViewer.Splash" parent="Base.V27.Theme.GitHubViewer.Splash">
+
+        <item name="android:windowSplashScreenBrandingImage">@drawable/viewer_brand_splash_centered</item>
+
+    </style>
+
+    <style name="Base.Theme.GitHubViewer.Splash" parent="Base.V31.Theme.GitHubViewer.Splash"/>
+
+</resources>

@@ -1,0 +1,34 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="200dp"
+    android:height="30dp"
+    android:viewportWidth="475"
+    android:viewportHeight="70">
+
+    <group android:scaleX="0.8"
+        android:scaleY="0.8"
+        android:translateX="40"
+        android:translateY="5">
+
+        <path
+            android:fillColor="@color/github_mark_logo"
+            android:pathData="M39.8,69.5L-0.1,0.5h18.4l28,49.9L72.9,0.5h16l-38,69.1H39.8z"/>
+        <path
+            android:fillColor="@color/github_mark_logo"
+            android:pathData="M97.8,69.5V13h13.7v56.6H97.8z"/>
+        <path
+            android:fillColor="@color/github_mark_logo"
+            android:pathData="M136.8,69.5V13h60.7v10h-46.8v12.3h27.2V45h-27.2v13.9h47.5v10.6H136.8z"/>
+        <path
+            android:fillColor="@color/github_mark_logo"
+            android:pathData="M233.3,69.5l-23,-56.6h14.4l14.8,39.5L255.5,13h9.5l15.8,39.5L295.4,13h12.5l-22.7,56.6h-9.4l-16.3,-40l-16.6,40H233.3z"/>
+        <path
+            android:fillColor="@color/github_mark_logo"
+            android:pathData="M323.7,69.5V13h60.7v10h-46.8v12.3h27.2V45h-27.2v13.9h47.5v10.6H323.7z"/>
+        <path
+            android:fillColor="@color/github_mark_logo"
+            android:pathData="M405,69.5V13h51c4.7,0 8,0.9 10.1,2.6c2.1,1.7 3.1,4.5 3.1,8.4v13.3c0,3.8 -1,6.6 -3.1,8.3c-2.1,1.7 -5.5,2.5 -10.1,2.5h-7.8l26.9,21.4h-19.8l-23.7,-21.4h-13v21.4H405zM450.1,22.7h-31.5v15.7h31.5c2.4,0 4,-0.3 4.9,-1c0.9,-0.7 1.3,-1.9 1.3,-3.5v-6.5c0,-1.7 -0.4,-2.8 -1.3,-3.5C454.1,23 452.5,22.7 450.1,22.7z"/>
+
+
+    </group>
+
+</vector>

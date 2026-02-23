@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="TextAppearance.GitHubViewer.Button" parent="TextAppearance.MaterialComponents.Button">
+
+        <item name="textAllCaps">true</item>
+        <item name="android:textSize">16sp</item>
+
+    </style>
+
+    <style name="TextAppearance.GitHubViewer.Large" parent="TextAppearance.Material3.BodyLarge">
+
+
+    </style>
+
+    <style name="TextAppearance.GitHubViewer.TitleRepository" parent="TextAppearance.GitHubViewer.Large">
+
+        <item name="android:textColor">@color/accent_text</item>
+        <item name="android:textStyle">bold</item>
+
+    </style>
+
+    <style name="TextAppearance.GitHubViewer.Medium" parent="TextAppearance.Material3.BodyMedium">
+
+
+    </style>
+
+    <style name="TextAppearance.GitHubViewer.Medium.Bold" parent="TextAppearance.GitHubViewer.Medium">
+
+        <item name="android:textStyle">bold</item>
+
+    </style>
+
+    <style name="TextAppearance.GitHubViewer.Small" parent="TextAppearance.Material3.BodySmall">
+
+
+    </style>
+
+
+
+</resources>

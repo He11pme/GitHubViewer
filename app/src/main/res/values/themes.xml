@@ -1,9 +1,33 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!-- Base application theme. -->
-    <style name="Base.Theme.GitHubViewer" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+    <style name="Base.V27.Theme.GitHubViewer" parent="Theme.Material3.DayNight.NoActionBar">
+
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowLightNavigationBar">true</item>
+        <item name="android:navigationBarColor">@color/foreground</item>
+        <item name="android:statusBarColor">@color/foreground</item>
+        <item name="elevationOverlayEnabled">false</item>
+
     </style>
 
-    <style name="Theme.GitHubViewer" parent="Base.Theme.GitHubViewer" />
+    <style name="Base.Theme.GitHubViewer" parent="Base.V27.Theme.GitHubViewer" />
+
+    <style name="Theme.GitHubViewer" parent="Base.Theme.GitHubViewer">
+
+        <item name="appBarLayoutStyle">@style/Widget.GitHubViewer.AppBarLayout</item>
+
+    </style>
+
+    <style name="Base.V27.Theme.GitHubViewer.Splash" parent="Theme.SplashScreen">
+
+        <item name="windowSplashScreenBackground">@color/background_github_mark_logo_splash</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/github_mark_logo_splash</item>
+        <item name="postSplashScreenTheme">@style/Theme.GitHubViewer</item>
+
+    </style>
+
+    <style name="Base.Theme.GitHubViewer.Splash" parent="Base.V27.Theme.GitHubViewer.Splash"/>
+
+    <style name="Theme.GitHubViewer.Splash" parent="Base.Theme.GitHubViewer.Splash"/>
+
 </resources>

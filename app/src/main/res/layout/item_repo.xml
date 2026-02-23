@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="repo"
+            type="ivan.mineev.githubviewer.domain.model.Repo" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        style="@style/Widget.GitHubViewer.Card.Repository"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/title"
+            style="@style/Widget.GitHubViewer.TitleRepository"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{repo.name}"
+            app:layout_constraintStart_toEndOf="@+id/privateImage"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="GitHubViewer" />
+
+        <TextView
+            android:id="@+id/description"
+            style="@style/Widget.GitHubViewer.TextView.Medium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{repo.description}"
+            android:visibility="@{repo.description.isEmpty() ? View.GONE : View.VISIBLE}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/title"
+            tools:text="This is an educational Android-app developed as a practical
+        assignment for the IceRock course. It allows you to view your GitHub repositories.
+        You can authenticate using a personal access token, browse your repository list
+        and view repository details." />
+
+        <TextView
+            android:id="@+id/language"
+            style="@style/Widget.GitHubViewer.TextView.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{repo.language}"
+            android:textColor="@{repo.color}"
+            app:layout_constraintBottom_toTopOf="@+id/description"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/title"
+            tools:text="Kotlin" />
+
+        <ImageView
+            android:id="@+id/privateImage"
+            style="@style/Widget.GitHubViewer.ImageView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginEnd="4dp"
+            android:contentDescription="@string/private_repository"
+            android:visibility="@{repo.isPrivate ? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toBottomOf="@+id/title"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/title"
+            app:srcCompat="@drawable/ic_lock"
+            tools:visibility="visible" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

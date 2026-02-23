@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="TextWithIconView">
+        <attr name="icon" format="reference"/>
+        <attr name="iconColor" format="color"/>
+        <attr name="iconSize" format="dimension"/>
+
+        <attr name="labelColor" format="color"/>
+        <attr name="labelSize" format="dimension"/>
+        <attr name="labelText" format="string"/>
+    </declare-styleable>
+
+    <declare-styleable name="CounterView">
+
+        <attr name="valueColor" format="color"/>
+        <attr name="valueSize" format="dimension"/>
+        <attr name="valueText" format="string"/>
+
+    </declare-styleable>
+</resources>

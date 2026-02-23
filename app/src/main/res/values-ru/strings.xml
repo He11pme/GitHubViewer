@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">GitHubViewer</string>
+    <string name="personal_access_token">Личный токен доступа</string>
+    <string name="sign_in">ВОЙТИ</string>
+    <string name="loading">ЗАГРУЗКА</string>
+    <string name="logout">Выход</string>
+    <string name="license">Лицензия</string>
+
+    <!--    ERROR    -->
+
+    <string name="not_found">отсутствует</string>
+    <string name="forbidden_error">Превышен лимит запросов или недостаточно прав доступа</string>
+    <string name="unauthorized_error">Истёк срок действия токена доступа</string>
+    <string name="unauthorized_error_login">Недействительный токен доступа</string>
+    <string name="network_error">Нет подключения к интернету</string>
+    <string name="server_error">Ошибка соединения с сервером</string>
+    <string name="unexpected_error">Непредвиденная ошибка</string>
+    <string name="empty_token">Токен не может быть пустым</string>
+    <string name="empty_list">Список пуст</string>
+    <string name="repository_not_found">Репозиторий не найден</string>
+    <string name="readme_not_found">README не найден</string>
+    <string name="load_readme">ЗАГРУЗКА README</string>
+    <string name="token_not_inserted_incorrect_format">Токен не вставлен: невереный формат</string>
+
+
+</resources>

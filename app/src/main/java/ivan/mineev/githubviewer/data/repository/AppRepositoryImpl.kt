@@ -1,0 +1,102 @@
+package ivan.mineev.githubviewer.data.repository
+
+import dagger.hilt.android.scopes.ActivityRetainedScoped
+import ivan.mineev.githubviewer.data.local.storage.KeyValueStorage
+import ivan.mineev.githubviewer.data.mappers.toDomain
+import ivan.mineev.githubviewer.data.model.UserInfoDto
+import ivan.mineev.githubviewer.data.network.GitHubApi
+import ivan.mineev.githubviewer.domain.model.Repo
+import ivan.mineev.githubviewer.domain.model.RepoDetails
+import ivan.mineev.githubviewer.domain.repository.AppRepository
+import ivan.mineev.githubviewer.managers.TokenManager
+import javax.inject.Inject
+
+@ActivityRetainedScoped
+class AppRepositoryImpl @Inject constructor(
+    val keyValueStorage: KeyValueStorage,
+    private val colorRepository: LanguageColorRepository
+) : AppRepository {
+    private var _user: UserInfoDto? = null
+    private val user: UserInfoDto get() = _user ?: throw RuntimeException("User unauthorized")
+
+    private var repositories: List<Repo> = emptyList()
+
+    override suspend fun signIn(token: String?): Result<Unit> {
+        return (token ?: keyValueStorage.authToken)?.let {
+            try {
+                saveUser(getUser(it))
+                saveToken(it)
+                createAuthApi(it)
+                Result.success(Unit)
+            } catch (e: Exception) {
+                Result.failure(e)
+            }
+        } ?: Result.failure(RuntimeException("token unsaved"))
+    }
+
+    private suspend fun getUser(token: String): UserInfoDto {
+        return GitHubApi.unauthorized.getUser(TokenManager.fullToken(token))
+    }
+
+    private fun saveUser(userInfo: UserInfoDto) {
+        _user = userInfo
+    }
+
+    private fun saveToken(token: String) {
+        keyValueStorage.saveToken(token)
+    }
+
+    private fun createAuthApi(token: String) {
+        GitHubApi.createAuthorizedService(TokenManager.fullToken(token))
+    }
+
+    override suspend fun loadRepositories(isUpdate: Boolean): Result<List<Repo>> {
+
+        if (!isUpdate && repositories.isNotEmpty()) return Result.success(repositories)
+
+        return try {
+            repositories = getRepositories()
+            Result.success(repositories)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+
+    }
+
+    private suspend fun getRepositories(): List<Repo> {
+        return GitHubApi.authorized.getRepositories().map {
+            it.toDomain(colorRepository.getColorFor(it.language ?: ""))
+        }
+    }
+
+    override suspend fun loadRepo(repo: String): Result<RepoDetails> {
+        return try {
+            Result.success(getRepo(repo))
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    private suspend fun getRepo(repo: String): RepoDetails {
+        return GitHubApi.authorized.getRepository(user.login, repo).toDomain()
+    }
+
+    override suspend fun loadReadme(repo: String): Result<String> {
+        return try {
+            Result.success(getReadme(repo))
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    private suspend fun getReadme(repo: String): String {
+        return GitHubApi.authorized.getReadme(user.login, repo)
+    }
+
+    override fun logout() {
+        keyValueStorage.deleteToken()
+        _user = null
+        repositories = emptyList()
+    }
+
+}

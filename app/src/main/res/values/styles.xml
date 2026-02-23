@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Widget.GitHubViewer.Card" parent="">
+
+        <item name="android:background">@color/foreground</item>
+        <item name="android:padding">10dp</item>
+
+    </style>
+
+    <style name="Widget.GitHubViewer.Card.Repository" parent="Widget.GitHubViewer.Card">
+
+        <item name="android:layout_marginBottom">2dp</item>
+
+    </style>
+
+
+    <!--    APP BAR     -->
+
+    <!--    Использовал тему из Material2 чтобы добавить тень под appBar    -->
+    <style name="Base.Widget.GitHubViewer.AppBarLayout" parent="Widget.MaterialComponents.Toolbar.Primary"/>
+
+    <style name="Widget.GitHubViewer.AppBarLayout" parent="Base.Widget.GitHubViewer.AppBarLayout">
+
+        <item name="materialThemeOverlay">@style/ThemeOverlay.GitHubViewer.AppBarLayout</item>
+
+    </style>
+
+    <!--    TEXT INPUT LAYOUT   -->
+
+    <style name="Base.Widget.GitHubViewer.TextInputLayout" parent="Widget.Material3.TextInputLayout.OutlinedBox">
+
+        <item name="endIconTint">@color/icon_text_input_layout</item>
+        <item name="boxStrokeWidth">1dp</item>
+        <item name="android:textColorHint">@color/hint_text_input_layout</item>
+
+    </style>
+
+    <style name="Widget.GitHubViewer.TextInputLayout" parent="Base.Widget.GitHubViewer.TextInputLayout">
+
+        <item name="materialThemeOverlay">@style/ThemeOverlay.GitHubViewer.TextInputLayout</item>
+        <item name="boxBackgroundColor">@color/on_foreground</item>
+
+    </style>
+
+
+    <!--    BUTTON      -->
+
+    <style name="Base.Widget.GitHubViewer.Button" parent="Widget.Material3.Button.ElevatedButton">
+
+        <item name="cornerRadius">8dp</item>
+        <item name="strokeColor">@color/stroke_button</item>
+        <item name="strokeWidth">1dp</item>
+        <item name="android:padding">14dp</item>
+        <item name="android:textAppearance">@style/TextAppearance.GitHubViewer.Button</item>
+
+    </style>
+
+    <style name="Widget.GitHubViewer.Button" parent="Base.Widget.GitHubViewer.Button">
+
+        <item name="materialThemeOverlay">@style/ThemeOverlay.GitHubViewer.Button</item>
+
+    </style>
+
+
+    <!--    TEXT VIEW   -->
+
+    <style name="Base.Widget.GitHubViewer.TextView" parent="Widget.MaterialComponents.TextView">
+
+
+    </style>
+
+    <style name="Widget.GitHubViewer.TextView.Large" parent="Base.Widget.GitHubViewer.TextView">
+
+        <item name="android:textAppearance">@style/TextAppearance.GitHubViewer.Large</item>
+
+    </style>
+
+    <style name="Widget.GitHubViewer.TextView.Medium" parent="Base.Widget.GitHubViewer.TextView">
+
+        <item name="android:textAppearance">@style/TextAppearance.GitHubViewer.Medium</item>
+
+    </style>
+
+    <style name="Widget.GitHubViewer.TextView.Small" parent="Base.Widget.GitHubViewer.TextView">
+
+        <item name="android:textAppearance">@style/TextAppearance.GitHubViewer.Small</item>
+
+    </style>
+
+    <style name="Widget.GitHubViewer.TextView.Large.Centered" parent="Widget.GitHubViewer.TextView.Large">
+
+        <item name="android:gravity">center</item>
+
+    </style>
+
+    <style name="Widget.GitHubViewer.DescriptionAnimation" parent="Widget.GitHubViewer.TextView.Large.Centered">
+
+        <item name="android:layout_marginStart">100dp</item>
+        <item name="android:layout_marginEnd">100dp</item>
+
+    </style>
+
+    <style name="Widget.GitHubViewer.Counter" parent="Widget.GitHubViewer.TextView.Medium">
+
+        <item name="android:textAppearance">@style/TextAppearance.GitHubViewer.Medium.Bold</item>
+
+    </style>
+
+    <style name="Widget.GitHubViewer.TitleRepository" parent="Widget.GitHubViewer.TextView.Large">
+
+        <item name="android:textAppearance">@style/TextAppearance.GitHubViewer.TitleRepository
+        </item>
+
+    </style>
+
+    <style name="Widget.GitHubViewer.StarsCounter" parent="">
+
+        <item name="icon">@drawable/ic_star</item>
+        <item name="iconColor">@color/stars_counter</item>
+        <item name="labelText">@string/stars</item>
+        <item name="valueColor">@color/stars_counter</item>
+
+    </style>
+
+    <style name="Widget.GitHubViewer.ForksCounter" parent="">
+
+        <item name="icon">@drawable/ic_git_forks</item>
+        <item name="iconColor">@color/forks_counter</item>
+        <item name="labelText">@string/forks</item>
+        <item name="valueColor">@color/forks_counter</item>
+
+    </style>
+
+    <style name="Widget.GitHubViewer.WatchersCounter" parent="">
+
+        <item name="icon">@drawable/ic_watchers</item>
+        <item name="iconColor">@color/watchers_counter</item>
+        <item name="labelText">@string/watchers</item>
+        <item name="valueColor">@color/watchers_counter</item>
+
+    </style>
+
+    <style name="Widget.GitHubViewer.TitleLicence" parent="">
+
+        <item name="icon">@drawable/ic_license</item>
+        <item name="labelText">@string/license</item>
+
+    </style>
+
+    <style name="Widget.GitHubViewer.Link" parent="">
+
+        <item name="icon">@drawable/ic_link</item>
+        <item name="iconColor">@color/link</item>
+        <item name="labelColor">@color/link</item>
+
+    </style>
+
+    <!--    IMAGE VIEW      -->
+
+    <style name="Widget.GitHubViewer.ImageView" parent="">
+
+        <item name="android:scaleType">fitCenter</item>
+
+    </style>
+
+
+</resources>

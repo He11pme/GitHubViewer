@@ -1,3 +1,33 @@
 <resources>
     <string name="app_name">GitHubViewer</string>
+    <string name="personal_access_token">Personal access token</string>
+    <string name="sign_in">SIGN IN</string>
+    <string name="loading">LOADING</string>
+    <string name="github_logo" translatable="false">GitHub logo</string>
+    <string name="private_repository" translatable="false">private</string>
+    <string name="logout">Logout</string>
+    <string name="watchers" translatable="false">watchers</string>
+    <string name="forks" translatable="false">forks</string>
+    <string name="stars" translatable="false">stars</string>
+    <string name="license">License</string>
+    <string name="icon" translatable="false">ic</string>
+    <string name="not_found">not found</string>
+
+    <!--    ERROR    -->
+
+    <string name="forbidden_error">Request limit exceeded or insufficient permissions</string>
+    <string name="unauthorized_error_login">Invalid access token</string>
+    <string name="unauthorized_error">Access token expired</string>
+    <string name="network_error">No internet connection</string>
+    <string name="server_error">Server connection error</string>
+    <string name="unexpected_error">Unexpected error</string>
+    <string name="empty_token">Token cannot be empty</string>
+    <string name="empty_list">No items found</string>
+    <string name="repository_not_found">Repository not found</string>
+    <string name="readme_not_found">README not found</string>
+    <string name="load_readme">LOADING README</string>
+    <string name="token_not_inserted_incorrect_format">Token not inserted: incorrect format</string>
+
+
+
 </resources>

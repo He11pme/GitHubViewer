@@ -1,5 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="transparent">#00000000</color>
+
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="black_900">#050505</color>
+
+    <color name="blue_300">#88BDF7</color>
+    <color name="blue_400">#57A5FD</color>
+    <color name="blue_500">#2E8FFD</color>
+    <color name="blue_600">#1E88E5</color>
+    <color name="blue_700">#1566BF</color>
+    <color name="blue_800">#0866CA</color>
+
+    <color name="deep_orange_400">#FF7043</color>
+
+    <color name="gray_50">#F4F5F7</color>
+    <color name="gray_100">#EFF0F5</color>
+    <color name="gray_300">#E0E0E0</color>
+    <color name="gray_350">#BEC1C8</color>
+    <color name="gray_500">#999999</color>
+    <color name="gray_650">#44474D</color>
+    <color name="gray_700">#51535F</color>
+    <color name="gray_800">#24292F</color>
+
+    <color name="green_500">#3FD462</color>
+
+    <color name="neutral_800">#201F24</color>
+    <color name="neutral_850">#17181C</color>
+    <color name="neutral_900">#1D1B20</color>
+    <color name="neutral_900_variant">#141218</color>
+
+    <color name="purple_50">#FCF5FD</color>
+    <color name="purple_gray_100">#E6E0E9</color>
+
+    <color name="yellow_400">#FCD54B</color>
+
+    <color name="background">@color/gray_100</color>
+    <color name="foreground">@color/white</color>
+    <color name="on_foreground">@color/gray_50</color>
+
+    <color name="stars_counter">@color/yellow_400</color>
+    <color name="forks_counter">@color/green_500</color>
+    <color name="watchers_counter">@color/blue_500</color>
+    <color name="link">@color/blue_400</color>
+
+    <color name="icon_app_bar">@color/blue_700</color>
+
+    <color name="hint_text_input_layout">@color/gray_700</color>
+    <color name="icon_text_input_layout">@color/gray_700</color>
+    <color name="stroke_text_input_layout">@color/blue_600</color>
+
+    <color name="background_button">@color/foreground</color>
+    <color name="stroke_button">@color/gray_300</color>
+    <color name="text_button">@color/blue_800</color>
+
+    <color name="text">@color/neutral_900</color>
+    <color name="accent_text">@color/blue_600</color>
+
+    <color name="background_github_mark_logo">@color/white</color>
+    <color name="background_github_mark_logo_splash">@color/purple_50</color>
+    <color name="github_mark_logo">@color/gray_800</color>
+
 </resources>
